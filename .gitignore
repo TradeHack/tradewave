@@ -1,0 +1,13 @@
+# IDEs
+.idea/
+
+# dependencies
+/node_modules
+
+#production
+.next
+
+# misc
+.DS_Store
+
+npm-debug.log*

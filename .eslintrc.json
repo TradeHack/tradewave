@@ -1,0 +1,21 @@
+{
+  "env": {
+    "jest": true
+  },
+  "parser": "babel-eslint",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "standard",
+    "standard-react"
+  ],
+  "rules": {
+    "react/prop-types": [0],
+    "no-console": ["error"],
+    "react/jsx-handler-names": [0],
+    "import/no-named-default": [0]
+  }
+}
