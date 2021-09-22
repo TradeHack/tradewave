@@ -4,21 +4,29 @@ import InfoIcon from '@material-ui/icons/Info';
 
 import { StyledTitle, StyledCard } from './styles';
 
-export default function SimpleCard(props) {
+interface SimpleCardProps {
+  value: string;
+  tooltip: string;
+  name: string;
+}
+
+const SimpleCard = ({ name, tooltip, value }) => {
   return (
     <StyledCard>
       <CardContent>
         <StyledTitle color="textSecondary" gutterBottom>
-          {props.name}
-          <Tooltip title={props.tooltip} placement="top" arrow>
+          {name}
+          <Tooltip title={tooltip} placement="top" arrow>
             <InfoIcon fontSize="small" />
           </Tooltip>
         </StyledTitle>
 
         <Typography variant="h5" component="h2">
-          {props.value}
+          {value}
         </Typography>
       </CardContent>
     </StyledCard>
   );
-}
+};
+
+export default SimpleCard;
