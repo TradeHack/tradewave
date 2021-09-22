@@ -9,15 +9,11 @@
     "build": "next build",
     "start": "next start",
     "test": "mocha",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && pretty-quick --staged"
-    }
   },
   "author": "Matilde Rosa",
   "license": "ISC",
