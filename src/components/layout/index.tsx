@@ -1,14 +1,16 @@
-import React from 'react'
-import {StyledDiv} from "./styles";
-import Navbar from "../navbar";
+import React, { FC, ReactNode } from 'react';
+import { StyledDiv } from './styles';
+import Navbar from '../navbar';
 
-const Layout = (props: any) => (
-    <>
-        <Navbar/>
-        <StyledDiv>
-            {props.children}
-        </StyledDiv>
-    </>
-)
+interface LayoutProps {
+  children: ReactNode;
+}
 
-export default Layout
+const Layout: FC<LayoutProps> = (props) => (
+  <>
+    <Navbar />
+    <StyledDiv>{props.children}</StyledDiv>
+  </>
+);
+
+export default Layout;

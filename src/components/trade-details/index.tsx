@@ -14,7 +14,6 @@ const StyledPaper = styled(Paper)`
   padding: 20px;
 `;
 
-
 const StyledFormControl = styled(FormControl)`
   display: flex;
   margin-bottom: 8px;
@@ -23,8 +22,11 @@ const StyledFormControl = styled(FormControl)`
 `;
 
 const StyledTextField = styled(TextField)`
-margin-top: 12px;
-margin-bottom: 12px;`
+  margin-top: 12px;
+  margin-bottom: 12px;
+`;
+
+console.log('this is a test');
 
 export default function TradeDetails() {
   return (
@@ -33,17 +35,17 @@ export default function TradeDetails() {
       <StyledPaper elevation={3}>
         {/*  Trade partner */}
         <StyledFormControl fullWidth>
-          <StyledTextField label="Order number" variant="outlined" />
+          <StyledTextField label='Order number' variant='outlined' />
         </StyledFormControl>
 
         {/* Amount */}
         <StyledFormControl>
-          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+          <InputLabel htmlFor='outlined-adornment-amount'>Amount</InputLabel>
           <OutlinedInput
-            id="outlined-adornment-amount"
+            id='outlined-adornment-amount'
             // value={values.amount}
             // onChange={handleChange('amount')}
-            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+            startAdornment={<InputAdornment position='start'>$</InputAdornment>}
             labelWidth={60}
           />
         </StyledFormControl>
