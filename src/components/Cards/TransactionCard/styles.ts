@@ -1,4 +1,4 @@
-import { Card as MuiCard, Typography } from '@material-ui/core';
+import { Card as MuiCard, Typography, CardActions } from '@material-ui/core';
 import styled from 'styled-components';
 
 export const Title = styled(Typography)`
@@ -11,4 +11,13 @@ export const Card = styled(MuiCard)`
   height: 380px;
   position: relative;
   margin-top: 30px;
+`;
+
+export const Actions = styled(CardActions)`
+  && {
+    padding: 60px 60px 60px 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 `;

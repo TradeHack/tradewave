@@ -18,17 +18,17 @@ const TransactionCard: FC<TransactionCardProps> = ({
       <Box mb={3} ml={2} mt={3}>
         <CardContent>{children}</CardContent>
       </Box>
-      <CardActions
-        style={{
-          paddingLeft: '60px',
-          paddingRight: '60px',
-          paddingBottom: '40px',
-          width: '100%',
-          position: 'absolute',
-          bottom: '0',
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
+      <Styled.Actions
+      // style={{
+      //   paddingLeft: '60px',
+      //   paddingRight: '60px',
+      //   paddingBottom: '40px',
+      //   width: '100%',
+      //   position: 'absolute',
+      //   bottom: '0',
+      //   display: 'flex',
+      //   justifyContent: 'space-between',
+      // }}
       >
         <Button
           onClick={onBack}
@@ -42,7 +42,7 @@ const TransactionCard: FC<TransactionCardProps> = ({
         >
           Next
         </Button>
-      </CardActions>
+      </Styled.Actions>
     </Styled.Card>
   );
 };
