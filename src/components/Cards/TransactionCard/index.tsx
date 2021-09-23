@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { Box, CardActions, Button, CardContent } from '@material-ui/core';
+import { Box, Button, CardContent } from '@material-ui/core';
 import * as Styled from './styles';
 
 interface TransactionCardProps {
@@ -15,9 +15,7 @@ const TransactionCard: FC<TransactionCardProps> = ({
 }) => {
   return (
     <Styled.Card>
-      <Box mb={3} ml={2} mt={3}>
-        <CardContent>{children}</CardContent>
-      </Box>
+      <CardContent>{children}</CardContent>
       <Styled.Actions>
         <Button
           onClick={onBack}

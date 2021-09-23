@@ -4,11 +4,13 @@ import ContainerCenter from '@/components/common/Containers/Center';
 import StepOne from '@/components/TransactionSteps/StepOne';
 import StepTwo from '@/components/TransactionSteps/StepTwo';
 import StepThree from '@/components/TransactionSteps/StepThree';
+import StepFour from '@/components/TransactionSteps/StepFour';
 
 enum Steps {
   StepOne,
   StepTwo,
   StepThree,
+  StepFour,
 }
 
 const Transaction = () => {
@@ -35,7 +37,15 @@ const Transaction = () => {
           <StepThree
             updateStep={updateStep}
             back={Steps.StepTwo}
-            next={Steps.StepThree}
+            next={Steps.StepFour}
+          />
+        );
+      case Steps.StepFour:
+        return (
+          <StepFour
+            updateStep={updateStep}
+            back={Steps.StepThree}
+            next={Steps.StepFour}
           />
         );
       default:

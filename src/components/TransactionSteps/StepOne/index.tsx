@@ -19,6 +19,10 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
+const StyledInputContainer = styled.div`
+  padding-top: 25px;
+`;
+
 enum Options {
   Request,
   Make,
@@ -43,11 +47,13 @@ const StepOne: FC<StepProps> = ({ updateStep, next }) => {
         onBack={() => console.log('back')}
         onNext={() => updateStep(next)}
       >
-        <RadioButtons
-          title='What would you like to do?'
-          radioButtons={renderRadioButtons()}
-          initialValue={Options.Request.toString()}
-        />
+        <StyledInputContainer>
+          <RadioButtons
+            title='What would you like to do?'
+            radioButtons={renderRadioButtons()}
+            initialValue={Options.Request.toString()}
+          />
+        </StyledInputContainer>
       </TransactionCard>
     </StyledContainer>
   );
