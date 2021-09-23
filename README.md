@@ -1,4 +1,3 @@
-
 ## Description
 
 [Nextjs](https://github.com/vercel/next.js) TypeScript Tradewave frontend repo.
@@ -24,7 +23,10 @@ $ npm run dev
 $ npm run test
 ```
 
-
 ## Dependencies
 
 This repo needs the backend-api repo running
+
+# resources
+
+## React-moralis [link](https://github.com/MoralisWeb3/react-moralis#enable-web3-via-metamask)
