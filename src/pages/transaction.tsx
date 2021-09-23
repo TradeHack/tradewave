@@ -3,6 +3,7 @@ import Layout from '@/components/layout';
 import ContainerCenter from '@/components/common/Containers/Center';
 import StepOne from '@/components/TransactionSteps/StepOne';
 import StepTwo from '@/components/TransactionSteps/StepTwo';
+import StepThree from '@/components/TransactionSteps/StepThree';
 
 enum Steps {
   StepOne,
@@ -26,6 +27,14 @@ const Transaction = () => {
           <StepTwo
             updateStep={updateStep}
             back={Steps.StepOne}
+            next={Steps.StepThree}
+          />
+        );
+      case Steps.StepThree:
+        return (
+          <StepThree
+            updateStep={updateStep}
+            back={Steps.StepTwo}
             next={Steps.StepThree}
           />
         );

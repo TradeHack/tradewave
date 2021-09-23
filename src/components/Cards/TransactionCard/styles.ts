@@ -15,9 +15,11 @@ export const Card = styled(MuiCard)`
 
 export const Actions = styled(CardActions)`
   && {
-    padding: 60px 60px 60px 40px;
+    padding: 40px 40px 10px 40px;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    position: absolute;
+    bottom: 0;
   }
 `;
