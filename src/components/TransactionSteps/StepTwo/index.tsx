@@ -4,12 +4,16 @@ import DropDown from '@/components/common/Inputs/DropDown';
 import { TextField } from '@material-ui/core';
 import styled from 'styled-components';
 
-const StyledContainer = styled.div`
+const InputContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 30px;
+`;
+
+const StyledContainer = styled.div`
+  margin-top: 60px;
 `;
 
 interface StepProps {
@@ -19,16 +23,18 @@ interface StepProps {
 }
 const StepTwo: FC<StepProps> = ({ updateStep, next, back }) => {
   return (
-    <TransactionCard
-      onBack={() => updateStep(back)}
-      onNext={() => updateStep(next)}
-    >
-      <StyledContainer>
-        <DropDown label='Trade Partner' />
-        <TextField id='standard-basic' label='Amount' />
-        <TextField id='standard-basic' label='Your Order Refrence' />
-      </StyledContainer>
-    </TransactionCard>
+    <StyledContainer>
+      <TransactionCard
+        onBack={() => updateStep(back)}
+        onNext={() => updateStep(next)}
+      >
+        <InputContainer>
+          <DropDown label='Trade Partner' />
+          <TextField id='standard-basic' label='Amount' />
+          <TextField id='standard-basic' label='Your Order Refrence' />
+        </InputContainer>
+      </TransactionCard>
+    </StyledContainer>
   );
 };
 
