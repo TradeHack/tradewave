@@ -39,6 +39,7 @@
     "eth-sig-util": "^3.0.1",
     "ethers": "^5.4.6",
     "express": "^4.17.1",
+    "formik": "^2.2.9",
     "ganache-cli": "^6.12.2",
     "human-standard-token-abi": "^2.0.0",
     "js-cookie": "^3.0.0",
@@ -68,16 +69,18 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-config-standard-react": "^11.0.1",
+    "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.24.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
     "ts-node": "^10.2.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.3"
   }
 }
