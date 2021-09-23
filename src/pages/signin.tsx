@@ -5,7 +5,7 @@ import { useMoralis } from 'react-moralis';
 import { useRouter } from 'next/router';
 
 const SignIn = () => {
-  const { authenticate, isAuthenticated } = useMoralis();
+  const { authenticate, isAuthenticated, isAuthenticating } = useMoralis();
   const router = useRouter();
 
   const handleSignIn = async () => {
@@ -22,6 +22,7 @@ const SignIn = () => {
       <>
         <img src='/static/images/tradewave-logo.svg' />
         <Button
+          disabled={isAuthenticating}
           variant='contained'
           color='primary'
           onClick={handleSignIn}
