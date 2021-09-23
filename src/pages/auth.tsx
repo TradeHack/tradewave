@@ -1,9 +1,9 @@
-import React from "react";
-import TorusSdk, { RedirectResult } from "@toruslabs/torus-direct-web-sdk";
-import {withRouter} from "next/router";
-import {LinearProgress} from "@material-ui/core";
-import axios from "axios";
-import cookie from 'js-cookie'
+import React from 'react';
+import TorusSdk, { RedirectResult } from '@toruslabs/torus-direct-web-sdk';
+import { withRouter } from 'next/router';
+import { LinearProgress } from '@material-ui/core';
+import axios from 'axios';
+import cookie from 'js-cookie';
 
 interface IState {
   loginDetails?: RedirectResult | null;
@@ -22,27 +22,36 @@ class RedirectAuth extends React.Component<IProps, IState> {
   async componentDidMount() {
     const torusdirectsdk = new TorusSdk({
       baseUrl: window.location.origin,
-      redirectPathName: "/api/google/redirect",
+      redirectPathName: '/api/google/redirect',
       enableLogging: true,
-      uxMode: "redirect",
-      network: "testnet",
+      uxMode: 'redirect',
+      network: 'testnet',
     });
     const loginDetails = await torusdirectsdk.getRedirectResult();
     this.setState({
       loginDetails,
     });
-    const user = await axios.post('http://localhost:3001/api/auth/login', {token: loginDetails?.hashParameters?.id_token} )
-    const {token } = user?.data
-    cookie.set('jwt', token)
+    const user = await axios.post('http://localhost:3001/api/auth/login', {
+      token: loginDetails?.hashParameters?.id_token,
+    });
+    const { token } = user?.data;
+    cookie.set('jwt', token);
   }
 
   render() {
     const { loginDetails } = this.state;
     if (loginDetails) {
-      this.props.router.push('/')
+      this.props.router.push('/');
     }
     return (
-      <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <LinearProgress />
       </div>
     );
