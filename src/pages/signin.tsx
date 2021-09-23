@@ -3,7 +3,6 @@ import SplitPane from '@/components/common/Containers/SplitPane';
 import { Button } from '@material-ui/core';
 import { useMoralis } from 'react-moralis';
 import { useRouter } from 'next/router';
-import { connectUserWallet } from 'utils/connectUserWallet';
 
 const SignIn = () => {
   const { authenticate, isAuthenticated, isAuthenticating } = useMoralis();
