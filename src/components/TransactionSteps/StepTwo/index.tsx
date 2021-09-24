@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import TransactionCard from '@/components/Cards/TransactionCard';
 import DropDown from '@/components/common/Inputs/DropDown';
-import { TextField } from '@material-ui/core';
 import styled from 'styled-components';
+import { Formik, Form } from 'formik';
+import TextInput from '@/components/common/Inputs/TextInput';
 
 const InputContainer = styled.div`
   display: grid;
@@ -29,9 +30,30 @@ const StepTwo: FC<StepProps> = ({ updateStep, next, back }) => {
         onNext={() => updateStep(next)}
       >
         <InputContainer>
-          <DropDown label='Trade Partner' />
-          <TextField id='standard-basic' label='Amount' />
-          <TextField id='standard-basic' label='Your Order Refrence' />
+          <Formik
+            initialValues={{
+              amount: '',
+              refrence: '',
+              partner: '',
+            }}
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            onSubmit={() => {}}
+          >
+            <Form>
+              <DropDown
+                name='partner'
+                label='Trade Partner'
+                items={[]}
+                required
+              />
+              <TextInput name='amount' isRequired label='Amount' />
+              <TextInput
+                name='refrence'
+                isRequired
+                label='Your Order Refrence'
+              />
+            </Form>
+          </Formik>
         </InputContainer>
       </TransactionCard>
     </StyledContainer>

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import TransactionCard from '@/components/Cards/TransactionCard';
 import DropDown from '@/components/common/Inputs/DropDown';
 import styled from 'styled-components';
+import { Formik, Form } from 'formik';
 
 const InputContainer = styled.div`
   display: grid;
@@ -26,12 +27,45 @@ const StepThree: FC<StepProps> = ({ updateStep, next, back }) => {
         onBack={() => updateStep(back)}
         onNext={() => updateStep(next)}
       >
-        <InputContainer>
-          <DropDown label='Frieght Fowarder' />
-          <DropDown label='Origin Country' />
-          <DropDown label='Destination Country' />
-          <DropDown label='INCOTERMS 2020' />
-        </InputContainer>
+        <Formik
+          initialValues={{
+            freight: '',
+            origin: '',
+            destination: '',
+            incoterms: '',
+          }}
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onSubmit={() => {}}
+        >
+          <Form>
+            <InputContainer>
+              <DropDown
+                name='freight'
+                label='Frieght Fowarder'
+                items={[]}
+                required
+              />
+              <DropDown
+                name='origin'
+                label='Origin Country'
+                items={[]}
+                required
+              />
+              <DropDown
+                name='destination'
+                label='Destination Country'
+                items={[]}
+                required
+              />
+              <DropDown
+                name='incoterms'
+                label='INCOTERMS 2020'
+                items={[]}
+                required
+              />
+            </InputContainer>
+          </Form>
+        </Formik>
       </TransactionCard>
     </StyledContainer>
   );
