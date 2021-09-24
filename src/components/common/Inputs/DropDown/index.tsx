@@ -35,14 +35,8 @@ const MaterialUISelectField: FC<MaterialUISelectFieldProps> = ({
   onBlur,
 }) => {
   return (
-    <FormControl variant='filled' fullWidth>
-      <Select
-        disableUnderline
-        name={name}
-        onChange={onChange}
-        onBlur={onBlur}
-        value={value}
-      >
+    <FormControl fullWidth>
+      <Select name={name} onChange={onChange} onBlur={onBlur} value={value}>
         {children}
       </Select>
       <FormHelperText style={{ color: 'red' }}>{errorString}</FormHelperText>
