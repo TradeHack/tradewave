@@ -2,28 +2,24 @@ import React, { FC } from 'react';
 import { ErrorMessage, Field } from 'formik';
 import { Typography, TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import styled from 'styled-components';
-
+import * as Styled from './styles';
 interface TextInputProps {
   name: string;
-  className?: string;
   label: string;
   placeholder?: string;
   isRequired: boolean;
+  width?: string;
 }
-
-const StyledError = styled.div`
-  color: red;
-`;
 
 const FormikField: FC<TextInputProps> = ({
   name,
   label,
   placeholder = '',
   isRequired,
+  width,
 }) => {
   return (
-    <div>
+    <Styled.Container width={width}>
       <Grid container direction='column' spacing={1}>
         <Grid item>
           <Typography style={{ fontWeight: 500 }}>{label}</Typography>
@@ -39,11 +35,11 @@ const FormikField: FC<TextInputProps> = ({
             type={'text'}
           />
           <div>
-            <ErrorMessage component={StyledError} name={name} />
+            <ErrorMessage component={Styled.Error} name={name} />
           </div>
         </Grid>
       </Grid>
-    </div>
+    </Styled.Container>
   );
 };
 
