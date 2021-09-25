@@ -37,6 +37,7 @@
     "@types/js-cookie": "^2.2.7",
     "@types/mongodb": "^4.0.7",
     "@types/mongoose": "^5.11.97",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "@walletconnect/web3-provider": "^1.6.5",
     "axios": "^0.21.1",
