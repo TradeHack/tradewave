@@ -43,6 +43,7 @@ const StepOne: FC<StepProps> = ({ updateStep, next }) => {
     <StyledContainer>
       <StyledTitle>Create a Transaction</StyledTitle>
       <TransactionCard
+        isCancelable
         // eslint-disable-next-line no-console
         onBack={() => console.log('back')}
         onNext={() => updateStep(next)}
