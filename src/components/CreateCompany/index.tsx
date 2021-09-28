@@ -32,6 +32,7 @@ const CreateCompany: FC = () => {
               country: '',
             } as FormValues
           }
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           onSubmit={() => {}}
           validationSchema={Yup.object().shape({
             companyName: Yup.string().required('Required'),
