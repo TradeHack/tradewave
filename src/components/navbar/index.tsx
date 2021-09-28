@@ -47,7 +47,7 @@ export default function MenuAppBar(props) {
                   </a>
                 </Link>
                 <Box position='right'>
-                  <Link href='/create-transaction'>
+                  <Link href='/transaction'>
                     <a>
                       <Button color='inherit'>New transaction</Button>
                     </a>
