@@ -1,4 +1,3 @@
-import { Step } from '@material-ui/core';
 import React, { useState, createContext, FC } from 'react';
 
 export interface IStepOne {
