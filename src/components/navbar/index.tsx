@@ -15,7 +15,7 @@ import TorusContext from 'components/torus/context';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-export default function MenuAppBar(props) {
+const Navbar = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -47,9 +47,9 @@ export default function MenuAppBar(props) {
                   </a>
                 </Link>
                 <Box position='right'>
-                  <Link href='/transaction'>
+                  <Link href='/request-payment'>
                     <a>
-                      <Button color='inherit'>New transaction</Button>
+                      <Button color='inherit'>Request a payment</Button>
                     </a>
                   </Link>
                   <Button>
@@ -101,4 +101,6 @@ export default function MenuAppBar(props) {
       }}
     </TorusContext.Consumer>
   );
-}
+};
+
+export default Navbar;

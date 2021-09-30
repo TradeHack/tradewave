@@ -5,9 +5,10 @@ import Link from 'next/link';
 
 interface TransactionCardProps {
   children: ReactNode;
-  onBack: (e: any) => void;
-  onNext: (e: any) => void;
+  onBack?: () => void;
+  onNext: () => void;
   isCancelable?: boolean;
+  isDisabled?: boolean;
 }
 
 const TransactionCard: FC<TransactionCardProps> = ({
@@ -15,6 +16,7 @@ const TransactionCard: FC<TransactionCardProps> = ({
   onBack,
   onNext,
   isCancelable = false,
+  isDisabled = false,
 }) => {
   const renderCancel = () => (
     <Link href='/' passHref>
@@ -41,6 +43,8 @@ const TransactionCard: FC<TransactionCardProps> = ({
           </Button>
         )}
         <Button
+          disabled={isDisabled}
+          type='submit'
           onClick={onNext}
           style={{ background: '#08C792', width: '135px', height: '36px' }}
         >

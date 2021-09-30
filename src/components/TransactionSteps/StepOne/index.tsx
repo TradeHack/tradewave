@@ -1,61 +1,83 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import TransactionCard from '@/components/Cards/TransactionCard';
-import RadioButtons from '@/components/common/Inputs/RadioInputs';
-import Radio from '@/components/common/Inputs/RadioInputs/RadioButton';
+import DropDown from '@/components/common/Inputs/DropDown';
 import styled from 'styled-components';
-import { Typography } from '@material-ui/core';
+import { Formik, Form, FormikHelpers } from 'formik';
+import TextInput from '@/components/common/Inputs/TextInput';
+import { PaymentContext, IStepOne, Steps } from '@/context/paymentRequest';
+import * as Yup from 'yup';
 
-const StyledTitle = styled(Typography)`
-  && {
-    font-weight: bold;
-    font-size: 42px;
-    text-align: center;
-    max-height: 60px;
-  }
+const InputContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 30px;
 `;
 
 const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  margin-top: 60px;
 `;
 
-const StyledInputContainer = styled.div`
-  padding-top: 25px;
-`;
-
-enum Options {
-  Request,
-  Make,
-}
-
-interface StepProps {
+interface IProps {
   updateStep: (e: number) => void;
   next: number;
 }
-const StepOne: FC<StepProps> = ({ updateStep, next }) => {
-  const renderRadioButtons = () => (
-    <>
-      <Radio value={Options.Request.toString()} label='Request a payment' />
-      <Radio value={Options.Make.toString()} label='Make a payment' />
-    </>
-  );
+
+const StepOne: FC<IProps> = ({ updateStep, next }) => {
+  const {
+    setData,
+    stepOne: { amount, refrence, partner },
+  } = useContext(PaymentContext);
   return (
     <StyledContainer>
-      <StyledTitle>Create a Transaction</StyledTitle>
-      <TransactionCard
-        isCancelable
-        // eslint-disable-next-line no-console
-        onBack={() => console.log('back')}
-        onNext={() => updateStep(next)}
+      <Formik
+        initialValues={
+          {
+            amount: amount,
+            refrence: refrence,
+            partner: partner,
+          } as IStepOne
+        }
+        validationSchema={Yup.object().shape({
+          amount: Yup.string().required('Required'),
+          refrence: Yup.string().required('Required'),
+          partner: Yup.string().required('Required'),
+        })}
+        onSubmit={(
+          values: IStepOne,
+          { setSubmitting }: FormikHelpers<IStepOne>
+        ) => {
+          if (setData) setData(Steps.StepOne, values);
+          setSubmitting(false);
+          updateStep(next);
+        }}
       >
-        <StyledInputContainer>
-          <RadioButtons
-            title='What would you like to do?'
-            radioButtons={renderRadioButtons()}
-            initialValue={Options.Request.toString()}
-          />
-        </StyledInputContainer>
-      </TransactionCard>
+        {({ submitForm, isSubmitting }) => (
+          <TransactionCard
+            isCancelable
+            onNext={() => submitForm()}
+            isDisabled={isSubmitting}
+          >
+            <InputContainer>
+              <Form>
+                <DropDown
+                  name='partner'
+                  label='Trade Partner'
+                  items={[{ label: 'test', value: 'test' }]}
+                  required
+                />
+                <TextInput name='amount' isRequired label='Amount' />
+                <TextInput
+                  name='refrence'
+                  isRequired
+                  label='Your Order Refrence'
+                />
+              </Form>
+            </InputContainer>
+          </TransactionCard>
+        )}
+      </Formik>
     </StyledContainer>
   );
 };

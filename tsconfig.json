@@ -2,6 +2,11 @@
   "compilerOptions": {
     "target": "es2015",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "compilerOptions": {
+      "plugins": [
+        { "transform": "typescript-is/lib/transform-inline/transformer" }
+      ]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,7 +23,8 @@
       "@/*": ["./src/*"],
       "@/public/*": ["./public/*"],
       "@/components/*": ["components/*"],
-      "@/utils/*": ["utils/*"]
+      "@/utils/*": ["utils/*"],
+      "@/context/*": ["context/*"]
     }
   },
   "exclude": ["node_modules"],

@@ -1,74 +1,73 @@
 import React, { FC } from 'react';
 import TransactionCard from '@/components/Cards/TransactionCard';
-import DropDown from '@/components/common/Inputs/DropDown';
 import styled from 'styled-components';
-import { Formik, Form } from 'formik';
+import { Typography } from '@material-ui/core';
 
-const InputContainer = styled.div`
+const DataContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 20px;
+  justify-items: center;
+  width: 100%;
+  padding: 30px 15px 0px 15px;
 `;
 
 const StyledContainer = styled.div`
   margin-top: 60px;
 `;
+
+const StyledTitle = styled(Typography)`
+  && {
+    font-weight: bold;
+    font-size: 42px;
+    text-align: center;
+    max-height: 60px;
+  }
+`;
+
+const StyledKey = styled(Typography)`
+  && {
+    font-size: 16px;
+  }
+`;
+
+const StyledValue = styled(Typography)`
+  && {
+    font-size: 16px;
+    color: #62635b;
+  }
+`;
+
 interface StepProps {
   updateStep: (e: number) => void;
-  next: number;
   back: number;
 }
-const StepThree: FC<StepProps> = ({ updateStep, next, back }) => {
+const StepFour: FC<StepProps> = ({ updateStep, back }) => {
   return (
     <StyledContainer>
       <TransactionCard
         onBack={() => updateStep(back)}
-        onNext={() => updateStep(next)}
+        onNext={() => updateStep(back)}
       >
-        <Formik
-          initialValues={{
-            freight: '',
-            origin: '',
-            destination: '',
-            incoterms: '',
-          }}
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          onSubmit={() => {}}
-        >
-          <Form>
-            <InputContainer>
-              <DropDown
-                name='freight'
-                label='Frieght Fowarder'
-                items={[]}
-                required
-              />
-              <DropDown
-                name='origin'
-                label='Origin Country'
-                items={[]}
-                required
-              />
-              <DropDown
-                name='destination'
-                label='Destination Country'
-                items={[]}
-                required
-              />
-              <DropDown
-                name='incoterms'
-                label='INCOTERMS 2020'
-                items={[]}
-                required
-              />
-            </InputContainer>
-          </Form>
-        </Formik>
+        <StyledTitle>Summary</StyledTitle>
+        <DataContainer>
+          <StyledKey>Trade Partner</StyledKey>
+          <StyledValue>Banana Imports</StyledValue>
+
+          <StyledKey>Trade Partner</StyledKey>
+          <StyledValue>Banana Imports</StyledValue>
+
+          <StyledKey>Trade Partner</StyledKey>
+          <StyledValue>Banana Imports</StyledValue>
+
+          <StyledKey>Trade Partner</StyledKey>
+          <StyledValue>Banana Imports</StyledValue>
+        </DataContainer>
       </TransactionCard>
     </StyledContainer>
   );
 };
 
-export default StepThree;
+export default StepFour;
