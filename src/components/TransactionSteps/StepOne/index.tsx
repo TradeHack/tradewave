@@ -37,14 +37,16 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
   const [partners, setPartners] = useState<any[]>([]);
 
   useEffect(() => {
-    (async () => {
-      const results: any[] = await getCompanies(user as Moralis.User);
-      const dropDownItems = results.map((company) => ({
-        label: company.attributes.companyName,
-        value: company.id,
-      }));
-      setPartners(dropDownItems);
-    })();
+    if (user) {
+      (async () => {
+        const results: any[] = await getCompanies(user as Moralis.User);
+        const dropDownItems = results.map((company) => ({
+          label: company.attributes.companyName,
+          value: company.id,
+        }));
+        setPartners(dropDownItems);
+      })();
+    }
   }, [user]);
 
   return (
