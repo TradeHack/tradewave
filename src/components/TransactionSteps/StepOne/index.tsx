@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import TransactionCard from '@/components/Cards/TransactionCard';
 import DropDown from '@/components/common/Inputs/DropDown';
 import styled from 'styled-components';
@@ -6,6 +6,9 @@ import { Formik, Form, FormikHelpers } from 'formik';
 import TextInput from '@/components/common/Inputs/TextInput';
 import { PaymentContext, IStepOne, Steps } from '@/context/paymentRequest';
 import * as Yup from 'yup';
+import { getCompanies } from '@/utils/getCompanies';
+import { useMoralis } from 'react-moralis';
+import Moralis from 'moralis';
 
 const InputContainer = styled.div`
   display: grid;
@@ -29,6 +32,21 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
     setData,
     stepOne: { amount, refrence, partner },
   } = useContext(PaymentContext);
+  const { user } = useMoralis();
+
+  const [partners, setPartners] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const results: any[] = await getCompanies(user as Moralis.User);
+      const dropDownItems = results.map((company) => ({
+        label: company.attributes.companyName,
+        value: company.id,
+      }));
+      setPartners(dropDownItems);
+    })();
+  }, [user]);
+
   return (
     <StyledContainer>
       <Formik
@@ -64,7 +82,7 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
                 <DropDown
                   name='partner'
                   label='Trade Partner'
-                  items={[{ label: 'test', value: 'test' }]}
+                  items={partners}
                   required
                 />
                 <TextInput name='amount' isRequired label='Amount' />

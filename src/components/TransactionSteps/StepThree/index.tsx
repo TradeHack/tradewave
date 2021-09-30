@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import TransactionCard from '@/components/Cards/TransactionCard';
 import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
@@ -6,6 +6,8 @@ import { PaymentContext } from '@/context/paymentRequest';
 import { requestPayment } from '@/utils/requestPayment';
 import { useMoralis } from 'react-moralis';
 import Moralis from 'moralis';
+import router from 'next/router';
+import { getCompanyById } from '@/utils/getCompanyById';
 
 const DataContainer = styled.div`
   display: grid;
@@ -50,20 +52,34 @@ interface StepProps {
 }
 const StepFour: FC<StepProps> = ({ updateStep, back }) => {
   const { stepOne, stepTwo } = useContext(PaymentContext);
+  const [partnerName, setPartnerName] = useState<string>('');
   const { user } = useMoralis();
+  const handleSubmit = async () => {
+    try {
+      await requestPayment(user as Moralis.User, { ...stepOne, ...stepTwo });
+      router.push('/');
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const company = await getCompanyById(stepOne.partner);
+      setPartnerName(company.attributes.companyName);
+    })();
+  }, []);
   return (
     <StyledContainer>
       <TransactionCard
         onBack={() => updateStep(back)}
-        onNext={async () =>
-          await requestPayment(user as Moralis.User, { ...stepOne, ...stepTwo })
-        }
+        onNext={() => handleSubmit()}
         onNextText='Submit'
       >
         <StyledTitle>Summary</StyledTitle>
         <DataContainer>
           <StyledKey>Trade Partner</StyledKey>
-          <StyledValue>{stepOne.partner}</StyledValue>
+          <StyledValue>{partnerName}</StyledValue>
 
           <StyledKey>Amount</StyledKey>
           <StyledValue>{stepOne.amount}</StyledValue>
