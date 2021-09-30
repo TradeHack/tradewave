@@ -9,6 +9,7 @@ interface TransactionCardProps {
   onNext: () => void;
   isCancelable?: boolean;
   isDisabled?: boolean;
+  onNextText?: string;
 }
 
 const TransactionCard: FC<TransactionCardProps> = ({
@@ -17,6 +18,7 @@ const TransactionCard: FC<TransactionCardProps> = ({
   onNext,
   isCancelable = false,
   isDisabled = false,
+  onNextText,
 }) => {
   const renderCancel = () => (
     <Link href='/' passHref>
@@ -48,7 +50,7 @@ const TransactionCard: FC<TransactionCardProps> = ({
           onClick={onNext}
           style={{ background: '#08C792', width: '135px', height: '36px' }}
         >
-          Next
+          {onNextText || 'Next'}
         </Button>
       </Styled.Actions>
     </Styled.Card>

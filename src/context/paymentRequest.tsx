@@ -1,3 +1,4 @@
+import { Step } from '@material-ui/core';
 import React, { useState, createContext, FC } from 'react';
 
 export interface IStepOne {
@@ -21,7 +22,7 @@ const defaultState = {
 interface IPaymentContext {
   stepOne: IStepOne;
   stepTwo: IStepTwo;
-  setData?: (type: number, data: IStepOne) => void;
+  setData?: (type: number, data: DataTypes) => void;
 }
 
 export enum Steps {

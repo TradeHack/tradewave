@@ -4,13 +4,14 @@ import DropDown from '@/components/common/Inputs/DropDown';
 import styled from 'styled-components';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { PaymentContext, IStepTwo, Steps } from '@/context/paymentRequest';
+import * as Yup from 'yup';
 
 const InputContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 0px;
-  grid-row-gap: 20px;
+  grid-row-gap: 5px;
 `;
 
 const StyledContainer = styled.div`
@@ -37,6 +38,12 @@ const StepThree: FC<IProps> = ({ updateStep, next, back }) => {
             incoterms: incoterms,
           } as IStepTwo
         }
+        validationSchema={Yup.object().shape({
+          freight: Yup.string().required('Required'),
+          origin: Yup.string().required('Required'),
+          destination: Yup.string().required('Required'),
+          incoterms: Yup.string().required('Required'),
+        })}
         onSubmit={(
           values: IStepTwo,
           { setSubmitting }: FormikHelpers<IStepTwo>
@@ -49,32 +56,32 @@ const StepThree: FC<IProps> = ({ updateStep, next, back }) => {
         {({ submitForm }) => (
           <TransactionCard
             onBack={() => updateStep(back)}
-            onNext={() => updateStep(next)}
+            onNext={() => submitForm()}
           >
             <Form>
               <InputContainer>
                 <DropDown
                   name='freight'
-                  label='Frieght Fowarder'
-                  items={[]}
+                  label='Freight Fowarder'
+                  items={[{ label: 'test', value: 'test' }]}
                   required
                 />
                 <DropDown
                   name='origin'
                   label='Origin Country'
-                  items={[]}
+                  items={[{ label: 'test', value: 'test' }]}
                   required
                 />
                 <DropDown
                   name='destination'
                   label='Destination Country'
-                  items={[]}
+                  items={[{ label: 'test', value: 'test' }]}
                   required
                 />
                 <DropDown
                   name='incoterms'
                   label='INCOTERMS 2020'
-                  items={[]}
+                  items={[{ label: 'test', value: 'test' }]}
                   required
                 />
               </InputContainer>
