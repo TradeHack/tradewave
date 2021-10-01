@@ -14,13 +14,13 @@ import { useStyles } from './styles';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-export default function MenuAppBar(props) {
+export default function MenuAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
 
-  const handleMenu = (event) => {
+  const handleMenu = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
