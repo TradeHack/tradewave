@@ -11,3 +11,6 @@
 .DS_Store
 
 npm-debug.log*
+
+# Local Netlify folder
+.netlify
