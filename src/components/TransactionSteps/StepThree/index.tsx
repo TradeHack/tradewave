@@ -87,9 +87,6 @@ const StepFour: FC<StepProps> = ({ updateStep, back }) => {
           <StyledKey>Order Refrence</StyledKey>
           <StyledValue>{stepOne.refrence}</StyledValue>
 
-          <StyledKey>Request validity</StyledKey>
-          <StyledValue>????</StyledValue>
-
           <StyledKey>Frieght Forwarder</StyledKey>
           <StyledValue>{stepTwo.freight}</StyledValue>
 

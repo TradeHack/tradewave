@@ -62,7 +62,7 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
         validationSchema={Yup.object().shape({
           amount: Yup.string().required('Required'),
           refrence: Yup.string().required('Required'),
-          partner: Yup.string().required('Required'),
+          // partner: Yup.string().required('Required'),
         })}
         onSubmit={(
           values: IStepOne,
@@ -85,13 +85,12 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
                   name='partner'
                   label='Trade Partner'
                   items={partners}
-                  required
                 />
                 <TextInput name='amount' isRequired label='Amount' />
                 <TextInput
                   name='refrence'
                   isRequired
-                  label='Your Order Refrence'
+                  label='Your Order Reference'
                 />
               </Form>
             </InputContainer>
