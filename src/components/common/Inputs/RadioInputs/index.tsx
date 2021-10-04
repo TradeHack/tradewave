@@ -21,7 +21,7 @@ const RadioInputs: FC<RadioInputsProps> = ({
       initialValues={{
         selectedOption: initialValue,
       }}
-      onSubmit={() => {}}
+      onSubmit={() => undefined}
     >
       {({ values, setFieldValue }) => (
         <Form>

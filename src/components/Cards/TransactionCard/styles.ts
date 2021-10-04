@@ -8,7 +8,7 @@ export const Title = styled(Typography)`
 
 export const Card = styled(MuiCard)`
   width: 500px;
-  height: 420px;
+  height: 450px;
   position: relative;
   margin-top: 30px;
 `;

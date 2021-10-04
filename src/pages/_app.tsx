@@ -3,8 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { MuiThemeProvider } from '@material-ui/core';
 import theme, { MuiDefaultTheme } from '../styles/theme';
 import GlobalStyle from '../styles/global';
-import TorusContext from '../components/torus/context';
-import TorusWrapper from '../components/torus/auth';
+
 
 import { MoralisProvider } from 'react-moralis';
 
@@ -18,15 +17,7 @@ const MyApp = (props: any) => {
       <MuiThemeProvider theme={MuiDefaultTheme}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <TorusWrapper>
-            <TorusContext.Consumer>
-              {(value) => {
-                return (
-                  <Component {...pageProps} router={router} torus={value} />
-                );
-              }}
-            </TorusContext.Consumer>
-          </TorusWrapper>
+            <Component {...pageProps} router={router} />
         </ThemeProvider>
       </MuiThemeProvider>
     </MoralisProvider>

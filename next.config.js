@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const nextEnv = require('next-env');
 const dotenvLoad = require('dotenv-load');
 
@@ -22,5 +23,5 @@ module.exports = withNextEnv({
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
-  },
+  }
 });
