@@ -4,16 +4,9 @@ import ContainerCenter from '@/components/common/Containers/Center';
 import StepOne from '@/components/TransactionSteps/StepOne';
 import StepTwo from '@/components/TransactionSteps/StepTwo';
 import StepThree from '@/components/TransactionSteps/StepThree';
-import StepFour from '@/components/TransactionSteps/StepFour';
+import PaymentRequestProvider, { Steps } from '@/context/paymentRequest';
 
-enum Steps {
-  StepOne,
-  StepTwo,
-  StepThree,
-  StepFour,
-}
-
-const Transaction = () => {
+const RequestPayment = () => {
   const [currentStep, setStep] = useState<number>(Steps.StepOne);
 
   const updateStep = (step: number) => {
@@ -33,21 +26,7 @@ const Transaction = () => {
           />
         );
       case Steps.StepThree:
-        return (
-          <StepThree
-            updateStep={updateStep}
-            back={Steps.StepTwo}
-            next={Steps.StepFour}
-          />
-        );
-      case Steps.StepFour:
-        return (
-          <StepFour
-            updateStep={updateStep}
-            back={Steps.StepThree}
-            next={Steps.StepFour}
-          />
-        );
+        return <StepThree updateStep={updateStep} back={Steps.StepTwo} />;
       default:
         break;
     }
@@ -55,9 +34,11 @@ const Transaction = () => {
 
   return (
     <Layout>
-      <ContainerCenter>{renderCurrentStep()}</ContainerCenter>
+      <ContainerCenter>
+        <PaymentRequestProvider>{renderCurrentStep()}</PaymentRequestProvider>
+      </ContainerCenter>
     </Layout>
   );
 };
 
-export default Transaction;
+export default RequestPayment;

@@ -18,7 +18,8 @@
       "@/*": ["./src/*"],
       "@/public/*": ["./public/*"],
       "@/components/*": ["components/*"],
-      "@/utils/*": ["utils/*"]
+      "@/utils/*": ["utils/*"],
+      "@/context/*": ["context/*"]
     }
   },
   "exclude": ["node_modules"],

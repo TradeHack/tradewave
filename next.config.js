@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const nextEnv = require('next-env');
 const dotenvLoad = require('dotenv-load');
 var webpack = require('webpack');
@@ -14,7 +15,7 @@ module.exports = withNextEnv({
         destination: '/serviceworker/redirect.html',
         permanent: true,
       },
-    ]
+    ];
   },
   productionBrowserSourceMaps: true,
   plugins: [new webpack.IgnorePlugin(/^electron$/)]
