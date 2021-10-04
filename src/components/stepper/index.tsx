@@ -22,12 +22,12 @@ function getStepContent(
   stepIndex: number,
   forwarder: string,
   handleChangeForwarder: (value: string) => void,
-  handleChangeCurrency: (value: string) => void,
   tradePartner: string,
   handleChangeTradePartner: (value: string) => void,
-  values: string,
-  setValues: string,
-  amount: string
+  handleChangeCurrency: (value: string) => void,
+  values?: any,
+  setValues?: string,
+  amount?: string
 ) {
   switch (stepIndex) {
     case 0:
@@ -116,7 +116,7 @@ function getStepContent(
       return (
         <div>
           {/* <Summary /> */}
-          'This is the bit I really care about!'
+          This is the bit I really care about!
         </div>
       );
 
@@ -190,7 +190,8 @@ export default function StyledStepper() {
         ) : (
           <div>
             <Typography className={classes.instructions}>
-              {getStepContent(activeStep, forwarder, handleChangeForwarder, tradePartner, handleChangeTradePartner())}
+              {/*// @ts-ignore*/}
+              {getStepContent(activeStep, forwarder, handleChangeForwarder, tradePartner, handleChangeTradePartner, handleChangeCurrency)}
             </Typography>
             <StyledDiv>
               <Button
