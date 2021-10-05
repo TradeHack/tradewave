@@ -27,6 +27,7 @@
     // Disable rules that conflict with Prettier
     // Prettier must be last to override other configs
     "prettier"
+//    "next"
   ],
   "rules": {
     "no-console": ["error"],
