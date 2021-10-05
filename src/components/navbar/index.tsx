@@ -14,8 +14,7 @@ import { useStyles } from './styles';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-export default function MenuAppBar() {
-
+export default function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -30,8 +29,65 @@ export default function MenuAppBar() {
   };
 
   return (
-
+    <div className={classes.root}>
+      <AppBar position='static' className={classes.header}>
+        <Toolbar className={classes.toolbar}>
+          <Link href='/'>
+            <a>
+              <img
+                src='/static/images/tradewave-logo-white.svg'
+                className={classes.logo}
+                alt='tradewave'
+              />
+            </a>
+          </Link>
+          <Box position='right'>
+            <Link href='/request-payment'>
+              <a>
+                <Button color='inherit'>New transaction</Button>
+              </a>
+            </Link>
+            <Button>
+              <Avatar
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
+                onClick={handleMenu}
+                color='inherit'
+                //src={userInfo?.profileImage}
+              >
+                User name
+              </Avatar>
+              <Menu
+                id='menu-appbar'
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    cookie.remove('jwt');
+                    router.push('/login');
+                  }}
+                >
+                  Logout
+                </MenuItem>
+              </Menu>
+            </Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
-};
-
-export default Navbar;
+}
