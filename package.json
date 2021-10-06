@@ -58,6 +58,7 @@
     "react-dom": "^17.0.2",
     "react-moralis": "^0.2.3",
     "react-number-format": "^4.7.3",
+    "react-spring": "^9.2.5",
     "solc": "^0.8.7-fixed",
     "styled-components": "^5.3.0",
     "styled-normalize": "^8.0.7",
