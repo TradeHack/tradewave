@@ -50,10 +50,18 @@ export default function Navbar() {
             </a>
           </Link>
           <Box position='right'>
-            <Button color='inherit' onClick={() => setIsInboundNotificationOpen(true)}>
+            <Button
+              color='inherit'
+              onClick={() => setIsInboundNotificationOpen(true)}
+              className={classes.button}
+            >
               Inbound Requests
             </Button>
-            <Button color='inherit' onClick={() => setIsOutboundNotificationOpen(true)}>
+            <Button
+              color='inherit'
+              onClick={() => setIsOutboundNotificationOpen(true)}
+              className={classes.button}
+            >
               Outbound Payments
             </Button>
             <Button>
@@ -97,7 +105,11 @@ export default function Navbar() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Notification isOpen={isInboundNotificationOpen || isOutboundNotificationOpen} handleClose={handleCloseModal} />
+      <Notification
+        isOpen={isInboundNotificationOpen || isOutboundNotificationOpen}
+        handleClose={handleCloseModal}
+        isRequest={isInboundNotificationOpen}
+      />
     </div>
   );
 }

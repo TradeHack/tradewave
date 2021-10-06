@@ -4,15 +4,17 @@ import {
   Modal,
   Typography,
 } from '@material-ui/core';
-import { style } from '@/components/notification/styles';
+import { style, useStyles } from '@/components/notification/styles';
 
 
 interface NotificationProps {
   isOpen: boolean
   handleClose: () => void
+  isRequest: boolean
 }
 
 export const Notification = (props: NotificationProps) => {
+  const classes = useStyles();
   return (
     <Modal
       open={props.isOpen}
@@ -21,17 +23,17 @@ export const Notification = (props: NotificationProps) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Payment Request
+        <Typography variant="h6" component="h2" className={classes.title}>
+          {props.isRequest ? 'Payment Request' : 'Payment Complete'}
         </Typography>
-        <Typography>
-          {`Company XYZ requests 100 RAI for ABC goods`}
+        <Typography className={classes.text}>
+          {props.isRequest ? `Company XYZ requests 100 RAI for ABC goods` : `Company XYZ has successfully completed a payment of 100 RAI for ABC goods`}
         </Typography>
-        <Box position='right'>
-          <Button color='inherit'>
+        <Box position='right' className={classes.buttons}>
+          <Button color='primary'>
             View
           </Button>
-          <Button color='inherit' onClick={props.handleClose}>
+          <Button color='primary' onClick={props.handleClose}>
             Dismiss
           </Button>
         </Box>

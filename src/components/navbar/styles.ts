@@ -21,5 +21,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     logo: {
         height: 30
+    },
+    button: {
+        maxWidth: 145
     }
 }));
