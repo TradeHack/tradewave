@@ -62,11 +62,7 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
         validationSchema={Yup.object().shape({
           amount: Yup.string().required('Required'),
           refrence: Yup.string().required('Required'),
-<<<<<<< HEAD
-          // buyer: Yup.string().required('Required'),
-=======
-          // partner: Yup.string().required('Required'),
->>>>>>> acd42ae2f49b0d508e932d785d6c0933d10c20ff
+
         })}
         onSubmit={(
           values: IStepOne,
