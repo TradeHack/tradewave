@@ -13,6 +13,7 @@ import cookie from 'js-cookie';
 import { useStyles } from './styles';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { Notification } from '../notification'
 
 interface INavbar {
   showLinks?: boolean;
@@ -21,6 +22,8 @@ interface INavbar {
 const Navbar: FC<INavbar> = ({ showLinks = true }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isInboundNotificationOpen, setIsInboundNotificationOpen] = React.useState(false);
+  const [isOutboundNotificationOpen, setIsOutboundNotificationOpen] = React.useState(false);
   const open = Boolean(anchorEl);
   const router = useRouter();
 
@@ -30,6 +33,11 @@ const Navbar: FC<INavbar> = ({ showLinks = true }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCloseModal = () => {
+    setIsInboundNotificationOpen(false);
+    setIsOutboundNotificationOpen(false);
   };
 
   return (
@@ -99,6 +107,7 @@ const Navbar: FC<INavbar> = ({ showLinks = true }) => {
           </Toolbar>
         </AppBar>
       </div>
+
   );
 };
 
