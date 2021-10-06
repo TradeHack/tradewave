@@ -4,12 +4,13 @@ import Navbar from '../navbar';
 
 interface LayoutProps {
   children: ReactNode;
+  showLinks?: boolean;
 }
 
-const Layout: FC<LayoutProps> = (props) => (
+const Layout: FC<LayoutProps> = ({ children, showLinks }) => (
   <>
-    <Navbar />
-    <StyledDiv>{props.children}</StyledDiv>
+    <Navbar showLinks={showLinks} />
+    <StyledDiv>{children}</StyledDiv>
   </>
 );
 

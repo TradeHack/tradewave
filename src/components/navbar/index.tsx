@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 import {
   AppBar,
   Avatar,
@@ -15,7 +15,11 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Notification } from '../notification'
 
-export default function Navbar() {
+interface INavbar {
+  showLinks?: boolean;
+}
+
+const Navbar: FC<INavbar> = ({ showLinks = true }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isInboundNotificationOpen, setIsInboundNotificationOpen] = React.useState(false);
@@ -37,79 +41,74 @@ export default function Navbar() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position='static' className={classes.header}>
-        <Toolbar className={classes.toolbar}>
-          <Link href='/'>
-            <a>
-              <img
-                src='/static/images/tradewave-logo-white.svg'
-                className={classes.logo}
-                alt='tradewave'
-              />
-            </a>
-          </Link>
-          <Box position='right'>
-            <Button
-              color='inherit'
-              onClick={() => setIsInboundNotificationOpen(true)}
-              className={classes.button}
-            >
-              Inbound Requests
-            </Button>
-            <Button
-              color='inherit'
-              onClick={() => setIsOutboundNotificationOpen(true)}
-              className={classes.button}
-            >
-              Outbound Payments
-            </Button>
-            <Button>
-              <Avatar
-                aria-label='account of current user'
-                aria-controls='menu-appbar'
-                aria-haspopup='true'
-                onClick={handleMenu}
-                color='inherit'
-                //src={userInfo?.profileImage}
-              >
-                User name
-              </Avatar>
-              <Menu
-                id='menu-appbar'
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    cookie.remove('jwt');
-                    router.push('/login');
-                  }}
-                >
-                  Logout
-                </MenuItem>
-              </Menu>
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Notification
-        isOpen={isInboundNotificationOpen || isOutboundNotificationOpen}
-        handleClose={handleCloseModal}
-        isRequest={isInboundNotificationOpen}
-      />
-    </div>
+      <div className={classes.root}>
+        <AppBar position='static' className={classes.header}>
+          <Toolbar className={classes.toolbar}>
+            <Link href='/'>
+              <a>
+                <img
+                  src='/static/images/tradewave-logo-white.svg'
+                  className={classes.logo}
+                  alt='tradewave'
+                />
+              </a>
+            </Link>
+            {showLinks && (
+              <Box position='right'>
+                <Link href='/request-payment'>
+                  <Button color='inherit'>Request a payment</Button>
+                </Link>
+                <Link href='/outbound-requests'>
+                  <Button color='inherit'>Outbound Requests</Button>
+                </Link>
+                <Link href='/inbound-requests'>
+                  <Button color='inherit'>inbound Requests</Button>
+                </Link>
+                <Button>
+                  <Avatar
+                    aria-label='account of current user'
+                    aria-controls='menu-appbar'
+                    aria-haspopup='true'
+                    onClick={handleMenu}
+                    color='inherit'
+                    //src={userInfo?.profileImage}
+                  >
+
+                  </Avatar>
+                  <Menu
+                    id='menu-appbar'
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        cookie.remove('jwt');
+                        router.push('/login');
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </Button>
+              </Box>
+            )}
+          </Toolbar>
+        </AppBar>
+      </div>
+
   );
-}
+};
+
+export default Navbar

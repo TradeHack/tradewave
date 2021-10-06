@@ -5,7 +5,7 @@ export const userHasCompany = async (
 ): Promise<boolean> => {
   const Company = Moralis.Object.extend('Company');
   const query = new Moralis.Query(Company);
-  query.equalTo('adminID', currentUser.id);
-  const results: Array<any> = await query.find();
+  query.equalTo('owner', currentUser);
+  const results: Array<unknown> = await query.find();
   return Boolean(results.length);
 };

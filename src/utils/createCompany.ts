@@ -7,6 +7,6 @@ export const createCompany = async (values: FormValues, user: Moralis.User) => {
   Object.entries(values).forEach(([key, value]) => {
     newCompany.set(key, value);
   });
-  newCompany.set('adminID', user.id);
+  newCompany.set('owner', user);
   await newCompany.save();
 };

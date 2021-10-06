@@ -7,12 +7,12 @@ export const requestPayment = async (user: Moralis.User, values: Values) => {
   const Transaction = Moralis.Object.extend('Transaction');
   const Company = Moralis.Object.extend('Company');
   const query = new Moralis.Query(Company);
-  query.equalTo('adminID', user.id);
+  query.equalTo('owner', user);
   const [company] = await query.find();
   const newTransaction = new Transaction();
   Object.entries(values).forEach(([key, value]) => {
     newTransaction.set(key, value);
   });
-  newTransaction.set('seller', company.id);
+  newTransaction.set('seller', company);
   await newTransaction.save();
 };

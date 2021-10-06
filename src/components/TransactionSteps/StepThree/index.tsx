@@ -65,7 +65,7 @@ const StepFour: FC<StepProps> = ({ updateStep, back }) => {
 
   useEffect(() => {
     (async () => {
-      const company = await getCompanyById(stepOne.partner);
+      const company = await getCompanyById(stepOne.buyer.id);
       setPartnerName(company.attributes.companyName);
     })();
   }, []);

@@ -3,7 +3,8 @@ import React, { useState, createContext, FC } from 'react';
 export interface IStepOne {
   amount: string;
   refrence: string;
-  partner: string;
+  //todo add the type for buyer
+  buyer: any;
 }
 
 export interface IStepTwo {
@@ -14,7 +15,7 @@ export interface IStepTwo {
 }
 
 const defaultState = {
-  stepOne: { amount: '', refrence: '', partner: '' },
+  stepOne: { amount: '', refrence: '', buyer: '' },
   stepTwo: { freight: '', origin: '', destination: '', incoterms: '' },
 };
 
