@@ -13,10 +13,13 @@ import cookie from 'js-cookie';
 import { useStyles } from './styles';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { Notification } from '../notification'
 
 export default function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isInboundNotificationOpen, setIsInboundNotificationOpen] = React.useState(false);
+  const [isOutboundNotificationOpen, setIsOutboundNotificationOpen] = React.useState(false);
   const open = Boolean(anchorEl);
   const router = useRouter();
 
@@ -26,6 +29,11 @@ export default function Navbar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCloseModal = () => {
+    setIsInboundNotificationOpen(false);
+    setIsOutboundNotificationOpen(false);
   };
 
   return (
@@ -42,11 +50,12 @@ export default function Navbar() {
             </a>
           </Link>
           <Box position='right'>
-            <Link href='/request-payment'>
-              <a>
-                <Button color='inherit'>New transaction</Button>
-              </a>
-            </Link>
+            <Button color='inherit' onClick={() => setIsInboundNotificationOpen(true)}>
+              Inbound Requests
+            </Button>
+            <Button color='inherit' onClick={() => setIsOutboundNotificationOpen(true)}>
+              Outbound Payments
+            </Button>
             <Button>
               <Avatar
                 aria-label='account of current user'
@@ -88,6 +97,7 @@ export default function Navbar() {
           </Box>
         </Toolbar>
       </AppBar>
+      <Notification isOpen={isInboundNotificationOpen || isOutboundNotificationOpen} handleClose={handleCloseModal} />
     </div>
   );
 }
