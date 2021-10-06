@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 import {
   AppBar,
   Avatar,
@@ -15,7 +15,11 @@ import TorusContext from 'components/torus/context';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-const Navbar = (props) => {
+interface INavbar {
+  showLinks?: boolean;
+}
+
+const Navbar: FC<INavbar> = ({ showLinks = true }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -46,54 +50,60 @@ const Navbar = (props) => {
                     />
                   </a>
                 </Link>
-                <Box position='right'>
-                  <Link href='/request-payment'>
-                    <a>
+                {showLinks && (
+                  <Box position='right'>
+                    <Link href='/request-payment'>
                       <Button color='inherit'>Request a payment</Button>
-                    </a>
-                  </Link>
-                  <Button>
-                    <Avatar
-                      aria-label='account of current user'
-                      aria-controls='menu-appbar'
-                      aria-haspopup='true'
-                      onClick={handleMenu}
-                      color='inherit'
-                      src={userInfo?.profileImage}
-                    >
-                      {userInfo?.name
-                        .split(' ')
-                        .map((n) => n[0])
-                        .join('')}
-                    </Avatar>
-                    <Menu
-                      id='menu-appbar'
-                      anchorEl={anchorEl}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      open={open}
-                      onClose={handleClose}
-                    >
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          cookie.remove('jwt');
-                          router.push('/login');
-                        }}
+                    </Link>
+                    <Link href='/outbound-requests'>
+                      <Button color='inherit'>Outbound Requests</Button>
+                    </Link>
+                    <Link href='/inbound-requests'>
+                      <Button color='inherit'>inbound Requests</Button>
+                    </Link>
+                    <Button>
+                      <Avatar
+                        aria-label='account of current user'
+                        aria-controls='menu-appbar'
+                        aria-haspopup='true'
+                        onClick={handleMenu}
+                        color='inherit'
+                        src={userInfo?.profileImage}
                       >
-                        Logout
-                      </MenuItem>
-                    </Menu>
-                  </Button>
-                </Box>
+                        {userInfo?.name
+                          .split(' ')
+                          .map((n) => n[0])
+                          .join('')}
+                      </Avatar>
+                      <Menu
+                        id='menu-appbar'
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        open={open}
+                        onClose={handleClose}
+                      >
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            cookie.remove('jwt');
+                            router.push('/login');
+                          }}
+                        >
+                          Logout
+                        </MenuItem>
+                      </Menu>
+                    </Button>
+                  </Box>
+                )}
               </Toolbar>
             </AppBar>
           </div>

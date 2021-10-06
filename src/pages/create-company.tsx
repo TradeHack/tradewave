@@ -5,7 +5,7 @@ import CreateCompanyForm from '@/components/CreateCompany';
 const CreateCompany: FC = () => {
   return (
     <>
-      <Layout>
+      <Layout showLinks={false}>
         <CreateCompanyForm />
       </Layout>
     </>

@@ -30,11 +30,11 @@ interface IProps {
 const StepOne: FC<IProps> = ({ updateStep, next }) => {
   const {
     setData,
-    stepOne: { amount, refrence, partner },
+    stepOne: { amount, refrence, buyer },
   } = useContext(PaymentContext);
   const { user } = useMoralis();
 
-  const [partners, setPartners] = useState<any[]>([]);
+  const [buyers, setBuyers] = useState<any[]>([]);
 
   useEffect(() => {
     if (user) {
@@ -42,9 +42,9 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
         const results: any[] = await getCompanies(user as Moralis.User);
         const dropDownItems = results.map((company) => ({
           label: company.attributes.companyName,
-          value: company.id,
+          value: company,
         }));
-        setPartners(dropDownItems);
+        setBuyers(dropDownItems);
       })();
     }
   }, [user]);
@@ -56,13 +56,13 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
           {
             amount: amount,
             refrence: refrence,
-            partner: partner,
+            buyer: buyer,
           } as IStepOne
         }
         validationSchema={Yup.object().shape({
           amount: Yup.string().required('Required'),
           refrence: Yup.string().required('Required'),
-          partner: Yup.string().required('Required'),
+          // buyer: Yup.string().required('Required'),
         })}
         onSubmit={(
           values: IStepOne,
@@ -82,9 +82,9 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
             <InputContainer>
               <Form>
                 <DropDown
-                  name='partner'
+                  name='buyer'
                   label='Trade Partner'
-                  items={partners}
+                  items={buyers}
                   required
                 />
                 <TextInput name='amount' isRequired label='Amount' />
