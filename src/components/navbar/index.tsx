@@ -33,81 +33,73 @@ const Navbar: FC<INavbar> = ({ showLinks = true }) => {
   };
 
   return (
-    <>
-      {(value) => {
-        const { userInfo } = value;
-        return (
-          <div className={classes.root}>
-            <AppBar position='static' className={classes.header}>
-              <Toolbar className={classes.toolbar}>
-                <Link href='/'>
-                  <a>
-                    <img
-                      src='/static/images/tradewave-logo-white.svg'
-                      className={classes.logo}
-                      alt='tradewave'
-                    />
-                  </a>
+      <div className={classes.root}>
+        <AppBar position='static' className={classes.header}>
+          <Toolbar className={classes.toolbar}>
+            <Link href='/'>
+              <a>
+                <img
+                  src='/static/images/tradewave-logo-white.svg'
+                  className={classes.logo}
+                  alt='tradewave'
+                />
+              </a>
+            </Link>
+            {showLinks && (
+              <Box position='right'>
+                <Link href='/request-payment'>
+                  <Button color='inherit'>Request a payment</Button>
                 </Link>
-                {showLinks && (
-                  <Box position='right'>
-                    <Link href='/request-payment'>
-                      <Button color='inherit'>Request a payment</Button>
-                    </Link>
-                    <Link href='/outbound-requests'>
-                      <Button color='inherit'>Outbound Requests</Button>
-                    </Link>
-                    <Link href='/inbound-requests'>
-                      <Button color='inherit'>inbound Requests</Button>
-                    </Link>
-                    <Button>
-                      <Avatar
-                        aria-label='account of current user'
-                        aria-controls='menu-appbar'
-                        aria-haspopup='true'
-                        onClick={handleMenu}
-                        color='inherit'
-                        src={userInfo?.profileImage}
-                      >
-                        {userInfo?.name
-                          .split(' ')
-                          .map((n) => n[0])
-                          .join('')}
-                      </Avatar>
-                      <Menu
-                        id='menu-appbar'
-                        anchorEl={anchorEl}
-                        anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        open={open}
-                        onClose={handleClose}
-                      >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            cookie.remove('jwt');
-                            router.push('/login');
-                          }}
-                        >
-                          Logout
-                        </MenuItem>
-                      </Menu>
-                    </Button>
-                  </Box>
-                )}
-              </Toolbar>
-            </AppBar>
-          </div>
-        );
-      }}
-    </>
+                <Link href='/outbound-requests'>
+                  <Button color='inherit'>Outbound Requests</Button>
+                </Link>
+                <Link href='/inbound-requests'>
+                  <Button color='inherit'>inbound Requests</Button>
+                </Link>
+                <Button>
+                  <Avatar
+                    aria-label='account of current user'
+                    aria-controls='menu-appbar'
+                    aria-haspopup='true'
+                    onClick={handleMenu}
+                    color='inherit'
+                    //src={userInfo?.profileImage}
+                  >
+
+                  </Avatar>
+                  <Menu
+                    id='menu-appbar'
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        cookie.remove('jwt');
+                        router.push('/login');
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </Button>
+              </Box>
+            )}
+          </Toolbar>
+        </AppBar>
+      </div>
   );
 };
+
+export default Navbar
