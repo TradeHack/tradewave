@@ -39,7 +39,7 @@ const StepThree: FC<IProps> = ({ updateStep, next, back }) => {
           } as IStepTwo
         }
         validationSchema={Yup.object().shape({
-          freight: Yup.string().required('Required'),
+          // freight: Yup.string().required('Required'),
           origin: Yup.string().required('Required'),
           destination: Yup.string().required('Required'),
           incoterms: Yup.string().required('Required'),
@@ -62,9 +62,8 @@ const StepThree: FC<IProps> = ({ updateStep, next, back }) => {
               <InputContainer>
                 <DropDown
                   name='freight'
-                  label='Freight Fowarder'
+                  label='Freight Forwarder'
                   items={[{ label: 'test', value: 'test' }]}
-                  required
                 />
                 <DropDown
                   name='origin'

@@ -11,7 +11,6 @@ import {
 import cookie from 'js-cookie';
 
 import { useStyles } from './styles';
-import TorusContext from 'components/torus/context';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -25,7 +24,7 @@ const Navbar: FC<INavbar> = ({ showLinks = true }) => {
   const open = Boolean(anchorEl);
   const router = useRouter();
 
-  const handleMenu = (event) => {
+  const handleMenu = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -34,7 +33,7 @@ const Navbar: FC<INavbar> = ({ showLinks = true }) => {
   };
 
   return (
-    <TorusContext.Consumer>
+    <>
       {(value) => {
         const { userInfo } = value;
         return (
@@ -109,8 +108,6 @@ const Navbar: FC<INavbar> = ({ showLinks = true }) => {
           </div>
         );
       }}
-    </TorusContext.Consumer>
+    </>
   );
 };
-
-export default Navbar;

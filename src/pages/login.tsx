@@ -5,7 +5,7 @@ import { useMoralis } from 'react-moralis';
 import { useRouter } from 'next/router';
 import { userHasCompany } from '@/utils/userHasCompany';
 
-const SignIn = () => {
+const Login = () => {
   const { authenticate, isAuthenticated, isAuthenticating, user } =
     useMoralis();
   const router = useRouter();
@@ -46,4 +46,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;

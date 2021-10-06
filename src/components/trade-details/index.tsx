@@ -26,8 +26,6 @@ const StyledTextField = styled(TextField)`
   margin-bottom: 12px;
 `;
 
-console.log('this is a test');
-
 export default function TradeDetails() {
   return (
     <div>
