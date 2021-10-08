@@ -1,8 +1,13 @@
-const HDWalletProvider = require('truffle-hdwallet-provider')
+const HDWalletProvider = require('@truffle/hdwallet-provider')
 const Web3 = require('web3')
 const compiledFactory = require('./build/RequestFactory.json')
 
-const provider = new HDWalletProvider(process.env.METAMASK_MNEMONIC, process.env.INFURA_API_KEY)
+const provider = new HDWalletProvider({
+  mnemonic: {
+    phrase: process.env.NEXT_PUBLIC_METAMASK_SEED
+  },
+  providerOrUrl: process.env.NEXT_PUBLIC_INFURA_API
+})
 const web3 = new Web3(provider)
 
 const deploy = async () => {

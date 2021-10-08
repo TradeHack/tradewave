@@ -9,9 +9,13 @@ import {
 } from '@material-ui/core';
 import Layout from '@/components/layout';
 import { getTransactionByRefrence } from '@/utils/getTransactions';
+import { useMoralis } from 'react-moralis';
+import RequestFactory from '../../../ethereum/build/RequestFactory.json'
+import web3 from '../../../ethereum/web3'
 
 const PayBill = () => {
   const router = useRouter();
+
   const { refrence } = router.query;
   const [transaction, setTransaction] = useState<any>(null);
 
@@ -26,6 +30,21 @@ const PayBill = () => {
       });
     })();
   });
+
+  const handleAccept = async () => {
+    try {
+      const accounts = await web3?.eth.getAccounts()
+      if (web3 && accounts) {
+       const factory = new web3.eth.Contract(
+         RequestFactory.abi,
+         '0xd9145CCE52D386f254917e481eB44e9943F39138'
+       )
+      console.log('factory', factory)
+     }
+    } catch (e) {
+      console.log('err', e)
+    }
+  }
   return (
     <div>
       <Layout>
@@ -37,7 +56,7 @@ const PayBill = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button style={{ backgroundColor: 'green' }} size='small'>
+              <Button style={{ backgroundColor: 'green' }} size='small' onClick={handleAccept}>
                 Accept
               </Button>
               <Button style={{ backgroundColor: 'red' }} size='small'>
