@@ -9,14 +9,14 @@ import {
 } from '@material-ui/core';
 import Layout from '@/components/layout';
 import { getTransactionByRefrence } from '@/utils/getTransactions';
-// @ts-ignore
-import web3 from '../../../ethereum/web3'
 import {Factory} from '../../../ethereum/factory'
 import {ReceivePayment} from '../../../ethereum/receivePayment'
+import { useMoralis } from 'react-moralis';
 
 const PayBill = () => {
   const router = useRouter();
-
+  const { web3, enableWeb3 } = useMoralis()
+  enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NOTES_ENDPOINT_KOVAN})
   const { refrence } = router.query;
   const [transaction, setTransaction] = useState<any>(null);
 
@@ -49,19 +49,8 @@ const PayBill = () => {
   }
 
   const handleDecline = async () => {
-    try {
-      // @ts-ignore
-      const accounts = await web3?.eth.getAccounts()
-      // @ts-ignore
-      if (web3 && accounts) {
-        // @ts-ignore
-        await Factory(web3)
-        await ReceivePayment(accounts[0]).methods.decline()
-      }
-      router.push('/')
-    } catch (e) {
-      console.log('err', e)
-    }
+    // Contract is never created in this case, just update status on backend
+    router.push('/')
   }
   return (
     <div>

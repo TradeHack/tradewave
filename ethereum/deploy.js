@@ -4,10 +4,9 @@ const compiledFactory = require('./build/RequestFactory.json')
 
 const provider = new HDWalletProvider({
   mnemonic: {
-    phrase:   'bacon clip scrub surround blossom unaware twice moment reform weekend multiply grit',
-
+    phrase: process.env.NEXT_PUBLIC_METAMASK,
   },
-  providerOrUrl: 'https://rinkeby.infura.io/v3/70b2adb65984476896214146db0c8141'
+  providerOrUrl: process.env.NEXT_PUBLIC_SPEEDY_NOTES_ENDPOINT_KOVAN
 })
 const web3 = new Web3(provider)
 
