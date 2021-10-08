@@ -16,6 +16,8 @@ import { fetchMyCompany } from '@/utils/fetchMyCompany';
 import { formatDate } from '@/utils/formatDate';
 import { Transaction } from 'types/transactions';
 import Link from 'next/link';
+import Modal from '@/components/dialog';
+import { deleteTransaction } from '@/utils/deleteTransaction';
 
 const createData = (data: Transaction) => {
   const { amount, refrence, buyer, freight, origin, submitted, status } = data;
@@ -32,7 +34,22 @@ const createData = (data: Transaction) => {
 
 const Outbound = () => {
   const [rows, setRows] = useState<Transaction[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+
   const { user } = useMoralis();
+
+  const handleDelete = async (row: any) => {
+    await deleteTransaction(row.refrence);
+    const company = await fetchMyCompany(user as Moralis.User);
+    const transactions = await getTransactionsByBuyer(company);
+    const parsedData = transactions.map((transaction) =>
+      createData({
+        ...transaction.attributes,
+        submitted: transaction.createdAt,
+      } as Transaction)
+    );
+    setRows(parsedData);
+  };
 
   useEffect(() => {
     if (user) {
@@ -60,7 +77,8 @@ const Outbound = () => {
               <TableCell align='right'>Value</TableCell>
               <TableCell align='right'>Status</TableCell>
               <TableCell align='right'>Submitted</TableCell>
-              <TableCell align='right'>Action</TableCell>
+              <TableCell align='right'></TableCell>
+              <TableCell align='right'></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -80,10 +98,22 @@ const Outbound = () => {
                       query: { refrence: row.refrence },
                     }}
                   >
-                    <Button style={{ backgroundColor: 'red', color: 'white' }}>
+                    <Button
+                      style={{ backgroundColor: 'green', color: 'white' }}
+                    >
                       Pay
                     </Button>
                   </Link>
+                </TableCell>
+                <TableCell align='right'>
+                  <Modal
+                    isOpen={open}
+                    closeAction={() => {
+                      setOpen(false);
+                    }}
+                    dialogText='Are you sure you want to delete?'
+                    confirmAction={() => handleDelete(row)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
