@@ -9,9 +9,10 @@ import {
 } from '@material-ui/core';
 import Layout from '@/components/layout';
 import { getTransactionByRefrence } from '@/utils/getTransactions';
-import { useMoralis } from 'react-moralis';
-import RequestFactory from '../../../ethereum/build/RequestFactory.json'
+// @ts-ignore
 import web3 from '../../../ethereum/web3'
+import {Factory} from '../../../ethereum/factory'
+import {ReceivePayment} from '../../../ethereum/receivePayment'
 
 const PayBill = () => {
   const router = useRouter();
@@ -33,14 +34,31 @@ const PayBill = () => {
 
   const handleAccept = async () => {
     try {
+      // @ts-ignore
       const accounts = await web3?.eth.getAccounts()
+      // @ts-ignore
       if (web3 && accounts) {
-       const factory = new web3.eth.Contract(
-         RequestFactory.abi,
-         '0xd9145CCE52D386f254917e481eB44e9943F39138'
-       )
-      console.log('factory', factory)
+        // @ts-ignore
+        await Factory(web3)
+        await ReceivePayment(accounts[0]).methods.confirmPurchase()
      }
+     router.push('/')
+    } catch (e) {
+      console.log('err', e)
+    }
+  }
+
+  const handleDecline = async () => {
+    try {
+      // @ts-ignore
+      const accounts = await web3?.eth.getAccounts()
+      // @ts-ignore
+      if (web3 && accounts) {
+        // @ts-ignore
+        await Factory(web3)
+        await ReceivePayment(accounts[0]).methods.decline()
+      }
+      router.push('/')
     } catch (e) {
       console.log('err', e)
     }
@@ -59,7 +77,7 @@ const PayBill = () => {
               <Button style={{ backgroundColor: 'green' }} size='small' onClick={handleAccept}>
                 Accept
               </Button>
-              <Button style={{ backgroundColor: 'red' }} size='small'>
+              <Button style={{ backgroundColor: 'red' }} size='small' onClick={handleDecline}>
                 Decline
               </Button>
             </CardActions>
