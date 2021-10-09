@@ -33,8 +33,8 @@ export const StyledGrid = styled(Grid)`
 interface FadeProps {
   children?: React.ReactElement;
   in: boolean;
-  onEnter?: () => {};
-  onExited?: () => {};
+  onEnter?: () => void;
+  onExited?: () => void;
 }
 
 const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(
