@@ -45,7 +45,7 @@ const PayBill = () => {
       }
      router.push('/')
     } catch (e) {
-      console.log('err', e)
+      alert('err', e)
     }
     setIsLoading(false)
   }
@@ -59,7 +59,7 @@ const PayBill = () => {
         await contract.methods.decline().send({from: accounts[0]})
       }
     } catch (e) {
-      console.log('err', e)
+      alert('err', e)
     }
     router.push('/')
   }
