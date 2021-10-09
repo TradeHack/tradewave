@@ -10,15 +10,14 @@ import {
 } from '@material-ui/core';
 import Layout from '@/components/layout';
 import { getTransactionByRefrence } from '@/utils/getTransactions';
-import {Factory} from '../../../ethereum/factory'
-import {ReceivePayment} from '../../../ethereum/receivePayment'
+import {ReceivePayment} from '../../../../ethereum/receivePayment'
 import { useMoralis } from 'react-moralis';
 
 const PayBill = () => {
   const router = useRouter();
   const { web3, enableWeb3 } = useMoralis()
   enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
-  const { refrence } = router.query;
+  const { refrence, address } = router.query;
   const [transaction, setTransaction] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<any>(false);
 
@@ -41,18 +40,8 @@ const PayBill = () => {
       const accounts = await web3?.eth.getAccounts()
       // @ts-ignore
       if (web3 && accounts) {
-        // @ts-ignore
-        const factory = await Factory(web3)
-        const request = await factory.methods.createRequest(1, '0xB65B2d2Bd1d5B228446e35786DBb9206B360F2D3').send({
-          from: accounts[0]
-        })
-        console.log('new request', request)
-        const requests = await factory.methods.getDeployedRequests().call()
-        console.log('requests', requests)
-        const contract = ReceivePayment(requests[requests.length - 1])
-        await contract.methods.confirmPurchase().send({from: accounts[0]})
-
-        //request.methods.confirmPurchase()
+        const contract = ReceivePayment(address, web3)
+        await contract.methods.confirmPurchase().send({from: accounts[0], value: transaction.amount})
       }
      router.push('/')
     } catch (e) {
@@ -62,7 +51,16 @@ const PayBill = () => {
   }
 
   const handleDecline = async () => {
-    // Contract is never created in this case, just update status on backend
+    try {
+      // @ts-ignore
+      const accounts = await web3?.eth.getAccounts()
+      if (web3 && accounts) {
+        const contract = ReceivePayment(address, web3)
+        await contract.methods.decline().send({from: accounts[0]})
+      }
+    } catch (e) {
+      console.log('err', e)
+    }
     router.push('/')
   }
   return (

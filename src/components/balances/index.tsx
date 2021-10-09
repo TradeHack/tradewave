@@ -13,7 +13,8 @@ export default function Balances() {
     const fetchBlock = async() => {
       if (user && web3) {
         const result = await Web3Api.account.getNativeBalance({
-          address: user.attributes.ethAddress, chain: 'rinkeby'
+        // @ts-ignore
+          address: user.attributes.ethAddress, chain: process.env.NEXT_PUBLIC_CHAIN
         })
         setBalance(web3.utils.fromWei(result.balance, 'ether'))
       }

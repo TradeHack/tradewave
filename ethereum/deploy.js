@@ -6,20 +6,19 @@ const provider = new HDWalletProvider({
   mnemonic: {
     phrase: '',
   },
-  providerOrUrl: 'https://speedy-nodes-nyc.moralis.io/e439b1487cd90ef9dcc4b21d/eth/rinkeby',
-  chainId: 4
+  providerOrUrl: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY,
+  chainId: process.env.NEXT_PUBLIC_CHAIN_ID
 })
 const web3 = new Web3(provider)
 
 const deploy = async () => {
   try {
     const accounts = await web3.eth.getAccounts()
-    console.log('accounts', accounts)
-    console.log('Attempting to deploy from account', accounts[0])
+    console.log('Attempting to deploy from account', accounts[1])
 
     const result = await new web3.eth.Contract(compiledFactory.abi)
       .deploy({ data: compiledFactory.evm.bytecode.object })
-      .send({ gas: '1000000', from: accounts[0] })
+      .send({ gas: '1000000', from: accounts[1] })
 
     console.log('Contract deployed to', result.options.address)
   } catch (e) {
