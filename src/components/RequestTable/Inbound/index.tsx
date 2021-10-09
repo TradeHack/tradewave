@@ -17,6 +17,8 @@ import { formatDate } from '@/utils/formatDate';
 import { Transaction } from 'types/transactions';
 import Link from 'next/link';
 import { Factory } from '../../../../ethereum/factory';
+import Modal from '@/components/dialog';
+import { deleteTransaction } from '@/utils/deleteTransaction';
 
 const createData = (data: Transaction) => {
   const { amount, refrence, buyer, freight, origin, submitted, status } = data;
@@ -34,6 +36,7 @@ const createData = (data: Transaction) => {
 const Outbound = () => {
   const [rows, setRows] = useState<Transaction[]>([]);
   const [requests, setRequests] = useState<string[]>([])
+  const [open, setOpen] = useState<boolean>(false);
   const { user, web3, enableWeb3, isWeb3Enabled } = useMoralis();
     enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
   const getTransactions = async () => {
@@ -41,7 +44,6 @@ const Outbound = () => {
 
     const requests = await factory.methods.getDeployedRequests().call()
     setRequests(requests)
-    console.log('requests', requests)
   }
 
   useEffect(() => {
@@ -50,6 +52,19 @@ const Outbound = () => {
     }
   }, [isWeb3Enabled])
 
+
+  const handleDelete = async (row: any) => {
+    await deleteTransaction(row.refrence);
+    const company = await fetchMyCompany(user as Moralis.User);
+    const transactions = await getTransactionsByBuyer(company);
+    const parsedData = transactions.map((transaction) =>
+      createData({
+        ...transaction.attributes,
+        submitted: transaction.createdAt,
+      } as Transaction)
+    );
+    setRows(parsedData);
+  };
 
   useEffect(() => {
     if (user) {
@@ -77,7 +92,8 @@ const Outbound = () => {
               <TableCell align='right'>Value</TableCell>
               <TableCell align='right'>Status</TableCell>
               <TableCell align='right'>Submitted</TableCell>
-              <TableCell align='right'>Action</TableCell>
+              <TableCell align='right'></TableCell>
+              <TableCell align='right'></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -98,10 +114,22 @@ const Outbound = () => {
                     }}
                     as={`/pay-bill/${row.refrence}/${requests[0]}`}
                   >
-                    <Button style={{ backgroundColor: 'red', color: 'white' }}>
+                    <Button
+                      style={{ backgroundColor: 'green', color: 'white' }}
+                    >
                       Pay
                     </Button>
                   </Link>
+                </TableCell>
+                <TableCell align='right'>
+                  <Modal
+                    isOpen={open}
+                    closeAction={() => {
+                      setOpen(false);
+                    }}
+                    dialogText='Are you sure you want to delete?'
+                    confirmAction={() => handleDelete(row)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
