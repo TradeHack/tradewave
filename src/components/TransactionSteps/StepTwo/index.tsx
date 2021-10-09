@@ -61,6 +61,7 @@ const StepThree: FC<IProps> = ({ updateStep, next, back }) => {
             <Form>
               <InputContainer>
                 <DropDown
+                  required
                   name='freight'
                   label='Freight Forwarder'
                   items={[{ label: 'test', value: 'test' }]}
