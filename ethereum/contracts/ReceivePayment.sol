@@ -26,6 +26,7 @@ contract ReceivePayment {
     State public state;
 
     // Only the buyer can call this function.
+    error OnlyBuyer();
     error OnlyForwarder();
     // Only the seller can call this function.
     error OnlySeller();
@@ -42,6 +43,12 @@ contract ReceivePayment {
     modifier restrictedForwarder() {
         if (msg.sender != forwarder)
             revert OnlyForwarder();
+        _;
+    }
+
+    modifier restrictedBuyer() {
+        if (msg.sender != buyer)
+            revert OnlyBuyer();
         _;
     }
 
@@ -71,6 +78,12 @@ contract ReceivePayment {
         // last call in this function and we
         // already changed the state.
         seller.transfer(address(this).balance);
+    }
+
+    // Buyer declines the payment request
+    function decline() public restrictedBuyer inState(State.Created) {
+        emit Aborted();
+        state = State.Closed;
     }
 
     // Confirm the purchase as buyer.

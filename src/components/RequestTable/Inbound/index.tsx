@@ -16,6 +16,7 @@ import { fetchMyCompany } from '@/utils/fetchMyCompany';
 import { formatDate } from '@/utils/formatDate';
 import { Transaction } from 'types/transactions';
 import Link from 'next/link';
+import { Factory } from '../../../../ethereum/factory';
 import Modal from '@/components/dialog';
 import { deleteTransaction } from '@/utils/deleteTransaction';
 
@@ -34,9 +35,23 @@ const createData = (data: Transaction) => {
 
 const Outbound = () => {
   const [rows, setRows] = useState<Transaction[]>([]);
+  const [requests, setRequests] = useState<string[]>([])
   const [open, setOpen] = useState<boolean>(false);
+  const { user, web3, enableWeb3, isWeb3Enabled } = useMoralis();
+    enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
+  const getTransactions = async () => {
+    const factory = await Factory(web3)
 
-  const { user } = useMoralis();
+    const requests = await factory.methods.getDeployedRequests().call()
+    setRequests(requests)
+  }
+
+  useEffect(() => {
+    if (isWeb3Enabled) {
+      getTransactions()
+    }
+  }, [isWeb3Enabled])
+
 
   const handleDelete = async (row: any) => {
     await deleteTransaction(row.refrence);
@@ -82,7 +97,7 @@ const Outbound = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.map((row, i) => (
               <TableRow key={row.seller}>
                 <TableCell component='th' scope='row'>
                   {row.buyer}
@@ -94,9 +109,10 @@ const Outbound = () => {
                 <TableCell align='right'>
                   <Link
                     href={{
-                      pathname: 'pay-bill/[refrence]',
-                      query: { refrence: row.refrence },
+                      pathname: 'pay-bill/[refrence]/[address]',
+                      query: { refrence: row.refrence, address: requests[0] },
                     }}
+                    as={`/pay-bill/${row.refrence}/${requests[0]}`}
                   >
                     <Button
                       style={{ backgroundColor: 'green', color: 'white' }}
