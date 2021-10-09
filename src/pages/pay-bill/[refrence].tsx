@@ -6,6 +6,7 @@ import {
   Typography,
   CardActions,
   Button,
+  CircularProgress
 } from '@material-ui/core';
 import Layout from '@/components/layout';
 import { getTransactionByRefrence } from '@/utils/getTransactions';
@@ -16,9 +17,10 @@ import { useMoralis } from 'react-moralis';
 const PayBill = () => {
   const router = useRouter();
   const { web3, enableWeb3 } = useMoralis()
-  enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NOTES_ENDPOINT_KOVAN})
+  enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
   const { refrence } = router.query;
   const [transaction, setTransaction] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<any>(false);
 
   useEffect(() => {
     (async () => {
@@ -30,22 +32,33 @@ const PayBill = () => {
         seller: seller.attributes.companyName,
       });
     })();
-  });
+  }, []);
 
   const handleAccept = async () => {
+    setIsLoading(true)
     try {
       // @ts-ignore
       const accounts = await web3?.eth.getAccounts()
       // @ts-ignore
       if (web3 && accounts) {
         // @ts-ignore
-        await Factory(web3)
-        await ReceivePayment(accounts[0]).methods.confirmPurchase()
-     }
+        const factory = await Factory(web3)
+        const request = await factory.methods.createRequest(1, '0xB65B2d2Bd1d5B228446e35786DBb9206B360F2D3').send({
+          from: accounts[0]
+        })
+        console.log('new request', request)
+        const requests = await factory.methods.getDeployedRequests().call()
+        console.log('requests', requests)
+        const contract = ReceivePayment(requests[requests.length - 1])
+        await contract.methods.confirmPurchase().send({from: accounts[0]})
+
+        //request.methods.confirmPurchase()
+      }
      router.push('/')
     } catch (e) {
       console.log('err', e)
     }
+    setIsLoading(false)
   }
 
   const handleDecline = async () => {
@@ -55,7 +68,7 @@ const PayBill = () => {
   return (
     <div>
       <Layout>
-        {transaction && (
+        {transaction && !isLoading && (
           <Card>
             <CardContent>
               <Typography variant='body1'>
@@ -72,6 +85,7 @@ const PayBill = () => {
             </CardActions>
           </Card>
         )}
+        {isLoading && <CircularProgress />}
       </Layout>
     </div>
   );

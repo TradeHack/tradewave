@@ -11,7 +11,7 @@ const Login = () => {
   const router = useRouter();
   const handleSignIn = async () => {
     try {
-      await authenticate();
+      await authenticate({chainId: 4});
       if (isAuthenticated && user) {
         if (await userHasCompany(user)) {
           router.push('/');
