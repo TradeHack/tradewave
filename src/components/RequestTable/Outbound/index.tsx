@@ -16,7 +16,7 @@ import { formatDate } from '@/utils/formatDate';
 import { Transaction } from 'types/transactions';
 
 const createData = (data: Transaction) => {
-  const { amount, refrence, buyer, freight, origin, submitted, status } = data;
+  const { amount, refrence, buyer, freight, origin, submitted, status, address } = data;
   return {
     amount,
     refrence,
@@ -25,6 +25,7 @@ const createData = (data: Transaction) => {
     submitted,
     status,
     buyer: buyer.attributes.companyName,
+    address
   };
 };
 
