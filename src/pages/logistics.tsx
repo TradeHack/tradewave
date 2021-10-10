@@ -8,7 +8,7 @@ import {
   TableHead,
   Paper,
   Button,
-  Typography,
+  Typography, CircularProgress,
 } from '@material-ui/core';
 import { useMoralis } from 'react-moralis';
 import { getAllTransactions } from '@/utils/getTransactions';
@@ -46,8 +46,8 @@ const createData = (data: Transaction) => {
 
 const Logistics = () => {
   const [rows, setRows] = useState<Transaction[]>([]);
-  const [requests, setRequests] = useState<string[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user, web3, enableWeb3, isWeb3Enabled } = useMoralis();
 
   useEffect(() => {
@@ -74,6 +74,7 @@ const Logistics = () => {
   };
 
   const changeStatus = async (status: Status, ref: any, address: string) => {
+    setIsLoading(true)
     if (status === Status.delivered) {
       // @ts-ignore
       const accounts = await web3?.eth.getAccounts()
@@ -98,6 +99,7 @@ const Logistics = () => {
     );
     setRows(parsedData);
     handleClose()
+    setIsLoading(false)
   };
   return (
     <>
@@ -136,9 +138,9 @@ const Logistics = () => {
                     <Link
                       href={{
                         pathname: 'pay-bill/[refrence]/[address]',
-                        query: { refrence: row.refrence, address: requests[0] },
+                        query: { refrence: row.refrence, address: row.address },
                       }}
-                      as={`/pay-bill/${row.refrence}/${requests[0]}`}
+                      as={`/pay-bill/${row.refrence}/${row.address}`}
                     >
                       <Modal
                         isOpen={open}
@@ -147,23 +149,31 @@ const Logistics = () => {
                         defaultButton='update'
                         title='Update transaction status'
                       >
-                        <div>
-                          <Button
-                            disabled={row.status === Status.delivered}
-                            onClick={() =>
-                              changeStatus(Status.inTransit, row.refrence, row.address)
-                            }
-                          >
-                            In transit
-                          </Button>
-                          <Button
-                            onClick={() =>
-                              changeStatus(Status.delivered, row.refrence, row.address)
-                            }
-                          >
-                            Delivered
-                          </Button>
-                        </div>
+                        {isLoading && (
+                          <>
+                            <CircularProgress />
+                            <p>Updating status</p>
+                          </>
+                        )}
+                        {!isLoading && (
+                          <div>
+                            <Button
+                              disabled={row.status === Status.delivered}
+                              onClick={() =>
+                                changeStatus(Status.inTransit, row.refrence, row.address)
+                              }
+                            >
+                              In transit
+                            </Button>
+                            <Button
+                              onClick={() =>
+                                changeStatus(Status.delivered, row.refrence, row.address)
+                              }
+                            >
+                              Delivered
+                            </Button>
+                          </div>
+                        )}
                       </Modal>
                     </Link>
                   </TableCell>

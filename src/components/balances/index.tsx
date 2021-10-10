@@ -16,7 +16,7 @@ export default function Balances() {
         // @ts-ignore
           address: user.attributes.ethAddress, chain: process.env.NEXT_PUBLIC_CHAIN
         })
-        setBalance(web3.utils.fromWei(result.balance, 'ether'))
+        setBalance(parseFloat(web3.utils.fromWei(result.balance, 'ether')).toFixed(3).toString())
       }
     }
     fetchBlock()
