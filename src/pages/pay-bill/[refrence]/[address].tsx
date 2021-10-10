@@ -52,7 +52,7 @@ const PayBill = () => {
       // @ts-ignore
       if (web3 && accounts) {
         const contract = ReceivePayment(address, web3)
-        await contract.methods.confirmPurchase().send({from: accounts[0], value: transaction.amount})
+        await contract.methods.confirmPurchase().send({from: accounts[0], value: web3.utils.toWei(transaction.amount)})
       }
       await updateTransaction(refrence as string, Status.live);
 
