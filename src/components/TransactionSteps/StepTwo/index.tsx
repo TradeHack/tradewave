@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { PaymentContext, IStepTwo, Steps } from '@/context/paymentRequest';
 import * as Yup from 'yup';
+import countries from '../../../data/countries.json';
 
 const InputContainer = styled.div`
   display: grid;
@@ -64,18 +65,29 @@ const StepThree: FC<IProps> = ({ updateStep, next, back }) => {
                   required
                   name='freight'
                   label='Freight Forwarder'
-                  items={[{ label: 'test', value: 'test' }]}
+                  items={[
+                    {
+                      label: 'Global frieght company',
+                      value: 'Global frieght company',
+                    },
+                  ]}
                 />
                 <DropDown
                   name='origin'
                   label='Origin Country'
-                  items={[{ label: 'test', value: 'test' }]}
+                  items={countries.map((country) => ({
+                    label: country.name,
+                    value: country.name,
+                  }))}
                   required
                 />
                 <DropDown
                   name='destination'
                   label='Destination Country'
-                  items={[{ label: 'test', value: 'test' }]}
+                  items={countries.map((country) => ({
+                    label: country.name,
+                    value: country.name,
+                  }))}
                   required
                 />
                 <DropDown
