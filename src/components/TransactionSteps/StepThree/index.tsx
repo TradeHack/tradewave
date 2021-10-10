@@ -62,7 +62,7 @@ const StepFour: FC<StepProps> = ({ updateStep, back }) => {
       const factory = await Factory(web3)
       const accounts = await web3?.eth.getAccounts()
      if (accounts && web3) {
-       await factory.methods.createRequest(web3.utils.toWei(stepOne.amount), process.env.NEXT_PUBLIC_LOGISTS_PARTNER_ADDRESS).send({
+       await factory.methods.createRequest(web3.utils.toWei(stepOne.amount), process.env.NEXT_PUBLIC_LOGISTICS_PARTNER_ADDRESS).send({
          from: accounts[0]
        })
        const request = await factory.methods.getLastDeployedRequest().call()
