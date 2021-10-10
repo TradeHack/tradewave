@@ -15,11 +15,27 @@ import { useMoralis } from 'react-moralis';
 
 const PayBill = () => {
   const router = useRouter();
-  const { web3, enableWeb3 } = useMoralis()
-  enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
+  const { web3, enableWeb3, isWeb3Enabled } = useMoralis()
   const { refrence, address } = router.query;
   const [transaction, setTransaction] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<any>(false);
+
+  useEffect(() => {
+    (async () => {
+      const result = await getTransactionByRefrence(refrence as string);
+      const { buyer, seller, amount } = result.attributes;
+      setTransaction({
+        amount,
+        buyer: buyer.attributes.companyName,
+        seller: seller.attributes.companyName,
+      });
+    })();
+  }, []);
+
+  useEffect(() => {
+    enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
+
+  }, [isWeb3Enabled]);
 
   useEffect(() => {
     (async () => {

@@ -89,7 +89,6 @@ const Logistics = () => {
     );
     setRows(parsedData);
   };
-  console.log(open);
   return (
     <>
       <div style={{ padding: '40px' }}>

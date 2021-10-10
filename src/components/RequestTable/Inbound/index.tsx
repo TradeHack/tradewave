@@ -38,7 +38,6 @@ const Outbound = () => {
   const [requests, setRequests] = useState<string[]>([])
   const [open, setOpen] = useState<boolean>(false);
   const { user, web3, enableWeb3, isWeb3Enabled } = useMoralis();
-    enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
   const getTransactions = async () => {
     const factory = await Factory(web3)
 
@@ -47,11 +46,11 @@ const Outbound = () => {
   }
 
   useEffect(() => {
+    enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
     if (isWeb3Enabled) {
       getTransactions()
     }
   }, [isWeb3Enabled])
-
 
   const handleDelete = async (row: any) => {
     await deleteTransaction(row.refrence);

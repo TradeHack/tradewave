@@ -55,9 +55,7 @@ const StepFour: FC<StepProps> = ({ updateStep, back }) => {
   const { stepOne, stepTwo } = useContext(PaymentContext);
   const [isLoading, setIsLoading] = useState<any>(false);
   const [partnerName, setPartnerName] = useState<string>('');
-  const { user, web3, enableWeb3 } = useMoralis();
-  enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
-
+  const { user, web3, enableWeb3, isWeb3Enabled } = useMoralis();
   const handleSubmit = async () => {
     setIsLoading(true)
     try {
@@ -75,6 +73,10 @@ const StepFour: FC<StepProps> = ({ updateStep, back }) => {
     }
     setIsLoading(false)
   };
+
+  useEffect(() => {
+    enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
+  }, [isWeb3Enabled]);
 
   useEffect(() => {
     (async () => {
