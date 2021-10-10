@@ -23,3 +23,11 @@ export const getTransactionByRefrence = async (refrence: string) => {
   const results = await query.find();
   return results[0];
 };
+
+export const getAllTransactions = async () => {
+  const Transaction = Moralis.Object.extend('Transaction');
+  const query = new Moralis.Query(Transaction);
+  query.limit(25);
+  const results = await query.find();
+  return results;
+};

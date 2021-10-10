@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, ReactNode } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,6 +14,9 @@ interface IModal {
   confirmAction?: () => void;
   isOpen?: boolean;
   closeAction?: () => void;
+  actions?: any;
+  defaultButton?: string;
+  children?: any;
 }
 
 const ResponsiveDialog: FC<IModal> = ({
@@ -21,11 +24,13 @@ const ResponsiveDialog: FC<IModal> = ({
   confirmAction = () => {},
   closeAction = () => {},
   isOpen,
+  actions,
+  defaultButton,
+  children,
 }) => {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
   useEffect(() => {
     if (typeof isOpen !== 'undefined') {
       setOpen(isOpen);
@@ -40,17 +45,20 @@ const ResponsiveDialog: FC<IModal> = ({
     setOpen(false);
     closeAction();
   };
-
   return (
     <div>
-      <Button
-        variant='outlined'
-        color='primary'
-        startIcon={<DeleteIcon />}
-        onClick={handleClickOpen}
-      >
-        Delete
-      </Button>
+      {defaultButton ? (
+        <Button onClick={handleClickOpen}>{defaultButton}</Button>
+      ) : (
+        <Button
+          variant='outlined'
+          color='primary'
+          startIcon={<DeleteIcon />}
+          onClick={handleClickOpen}
+        >
+          Delete
+        </Button>
+      )}
 
       <Dialog
         open={open}
@@ -69,19 +77,25 @@ const ResponsiveDialog: FC<IModal> = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color='primary'>
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              handleClose();
-              confirmAction();
-            }}
-            color='primary'
-            autoFocus
-          >
-            Confirm
-          </Button>
+          {actions ? (
+            <>{children}</>
+          ) : (
+            <div>
+              <Button autoFocus onClick={handleClose} color='primary'>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  handleClose();
+                  confirmAction();
+                }}
+                color='primary'
+                autoFocus
+              >
+                Confirm
+              </Button>
+            </div>
+          )}
         </DialogActions>
       </Dialog>
     </div>
