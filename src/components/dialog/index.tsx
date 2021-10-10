@@ -29,7 +29,6 @@ const ResponsiveDialog: FC<IModal> = ({
   children,
 }) => {
   const [open, setOpen] = React.useState(false);
-  console.log(isOpen);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   useEffect(() => {

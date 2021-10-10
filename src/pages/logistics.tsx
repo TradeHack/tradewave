@@ -79,6 +79,15 @@ const Logistics = () => {
     const results = await query.find();
     results[0].set('status', status);
     results[0].save();
+
+    const transactions = await getAllTransactions();
+    const parsedData = transactions.map((transaction) =>
+      createData({
+        ...transaction.attributes,
+        submitted: transaction.createdAt,
+      } as Transaction)
+    );
+    setRows(parsedData);
   };
   console.log(open);
   return (
