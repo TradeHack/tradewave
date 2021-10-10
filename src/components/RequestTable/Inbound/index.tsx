@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import {
-  TableContainer,
-  Table,
-  TableRow,
-  TableBody,
-  TableCell,
-  TableHead,
-  Paper,
-  Button,
-} from '@material-ui/core';
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { useMoralis } from 'react-moralis';
 import { getTransactionsByBuyer } from '@/utils/getTransactions';
 import Moralis from 'moralis';
 import { fetchMyCompany } from '@/utils/fetchMyCompany';
 import { formatDate } from '@/utils/formatDate';
-import { Transaction } from 'types/transactions';
-import Link from 'next/link';
+import { Status, Transaction } from 'types/transactions';
 import Modal from '@/components/dialog';
 import { deleteTransaction } from '@/utils/deleteTransaction';
+import Link from 'next/link';
 
 const createData = (data: Transaction) => {
   const { amount, refrence, buyer, freight, origin, submitted, status, address } = data;
@@ -92,19 +83,21 @@ const Outbound = () => {
                 <TableCell align='right'>{row.status}</TableCell>
                 <TableCell align='right'>{formatDate(row.submitted)}</TableCell>
                 <TableCell align='right'>
-                  <Link
-                    href={{
-                      pathname: 'pay-bill/[refrence]/[address]',
-                      query: { refrence: row.refrence, address: row.address },
-                    }}
-                    as={`/pay-bill/${row.refrence}/${row.address}`}
-                  >
-                    <Button
-                      style={{ backgroundColor: 'green', color: 'white' }}
+                  {row.status === Status.pending && (
+                    <Link
+                      href={{
+                        pathname: 'pay-bill/[refrence]/[address]',
+                        query: { refrence: row.refrence, address: row.address },
+                      }}
+                      as={`/pay-bill/${row.refrence}/${row.address}`}
                     >
-                      Pay
-                    </Button>
-                  </Link>
+                      <Button
+                        style={{ backgroundColor: 'green', color: 'white' }}
+                      >
+                        Pay
+                      </Button>
+                    </Link>
+                  )}
                 </TableCell>
                 <TableCell align='right'>
                   <Modal

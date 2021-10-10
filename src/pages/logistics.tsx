@@ -14,9 +14,10 @@ import { useMoralis } from 'react-moralis';
 import { getAllTransactions } from '@/utils/getTransactions';
 import Moralis from 'moralis';
 import { formatDate } from '@/utils/formatDate';
-import { Transaction } from 'types/transactions';
+import { Status, Transaction } from 'types/transactions';
 import Link from 'next/link';
 import Modal from '@/components/dialog';
+import { ReceivePayment } from '../../ethereum/receivePayment';
 
 const createData = (data: Transaction) => {
   const {
@@ -28,6 +29,7 @@ const createData = (data: Transaction) => {
     submitted,
     status,
     seller,
+    address
   } = data;
   return {
     amount,
@@ -38,6 +40,7 @@ const createData = (data: Transaction) => {
     status,
     buyer: buyer.id,
     seller: seller.id,
+    address
   };
 };
 
@@ -46,12 +49,10 @@ const Logistics = () => {
   const [requests, setRequests] = useState<string[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const { user, web3, enableWeb3, isWeb3Enabled } = useMoralis();
-  // enableWeb3({
-  //   provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY,
-  // });
-  // const getTransactions = async () => {
-  //   setRequests(requests);
-  // };
+
+  useEffect(() => {
+    enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
+  }, [isWeb3Enabled]);
 
   useEffect(() => {
     if (user) {
@@ -72,7 +73,15 @@ const Logistics = () => {
     setOpen(false);
   };
 
-  const changeStatus = async (status: string, ref: any) => {
+  const changeStatus = async (status: Status, ref: any, address: string) => {
+    if (status === Status.delivered) {
+      // @ts-ignore
+      const accounts = await web3?.eth.getAccounts()
+      if (web3 && accounts) {
+        const contract = ReceivePayment(address, web3)
+        await contract.methods.releasePayment().send({from: accounts[0]})
+      }
+    }
     const Transaction = Moralis.Object.extend('Transaction');
     const query = new Moralis.Query(Transaction);
     query.equalTo('refrence', ref);
@@ -88,6 +97,7 @@ const Logistics = () => {
       } as Transaction)
     );
     setRows(parsedData);
+    handleClose()
   };
   return (
     <>
@@ -108,7 +118,7 @@ const Logistics = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, i) => (
+              {rows.map((row) => (
                 <TableRow key={row.seller}>
                   <TableCell component='th' scope='row'>
                     {row.buyer}
@@ -135,18 +145,20 @@ const Logistics = () => {
                         dialogText='Choose status of shipment'
                         actions={true}
                         defaultButton='update'
+                        title='Update transaction status'
                       >
                         <div>
                           <Button
+                            disabled={row.status === Status.delivered}
                             onClick={() =>
-                              changeStatus('in transit', row.refrence)
+                              changeStatus(Status.inTransit, row.refrence, row.address)
                             }
                           >
                             In transit
                           </Button>
                           <Button
                             onClick={() =>
-                              changeStatus('delivered', row.refrence)
+                              changeStatus(Status.delivered, row.refrence, row.address)
                             }
                           >
                             Delivered

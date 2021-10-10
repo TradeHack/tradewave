@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import {
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-  CircularProgress
-} from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, CircularProgress, Typography } from '@material-ui/core';
 import Layout from '@/components/layout';
 import { getTransactionByRefrence } from '@/utils/getTransactions';
-import {ReceivePayment} from '../../../../ethereum/receivePayment'
+import { ReceivePayment } from '../../../../ethereum/receivePayment';
 import { useMoralis } from 'react-moralis';
 import { updateTransaction } from '@/utils/updateTransaction';
+import { Status } from '../../../types/transactions';
 
 const PayBill = () => {
   const router = useRouter();
@@ -60,7 +54,7 @@ const PayBill = () => {
         const contract = ReceivePayment(address, web3)
         await contract.methods.confirmPurchase().send({from: accounts[0], value: transaction.amount})
       }
-      await updateTransaction(refrence as string, 'Live');
+      await updateTransaction(refrence as string, Status.live);
 
       router.push('/')
     } catch (e) {
@@ -77,7 +71,7 @@ const PayBill = () => {
         const contract = ReceivePayment(address, web3)
         await contract.methods.decline().send({from: accounts[0]})
       }
-      await updateTransaction(refrence as string, 'Declined');
+      await updateTransaction(refrence as string, Status.declined);
     } catch (e) {
       alert(e)
     }
@@ -90,7 +84,7 @@ const PayBill = () => {
           <Card>
             <CardContent>
               <Typography variant='body1'>
-                {transaction.seller} requests {transaction.amount} Rai
+                {transaction.seller} requests {transaction.amount} Eth
               </Typography>
             </CardContent>
             <CardActions>

@@ -17,6 +17,7 @@ interface IModal {
   actions?: any;
   defaultButton?: string;
   children?: any;
+  title?: string
 }
 
 const ResponsiveDialog: FC<IModal> = ({
@@ -27,6 +28,7 @@ const ResponsiveDialog: FC<IModal> = ({
   actions,
   defaultButton,
   children,
+  title
 }) => {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
@@ -66,7 +68,7 @@ const ResponsiveDialog: FC<IModal> = ({
         aria-labelledby='responsive-dialog-title'
       >
         <DialogTitle id='responsive-dialog-title'>
-          {'Delete transaction?'}
+          {title}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>

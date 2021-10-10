@@ -27,7 +27,7 @@ interface SplitPaneProps {
 const SplitPane: FC<SplitPaneProps> = ({ rightChildren }) => {
   return (
     <StyledDiv>
-      <StyledLeftContainer>placeholder</StyledLeftContainer>
+      <StyledLeftContainer/>
       <StyledRightContainer>{rightChildren}</StyledRightContainer>
     </StyledDiv>
   );

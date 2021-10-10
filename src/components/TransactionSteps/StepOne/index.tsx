@@ -57,6 +57,7 @@ const StepOne: FC<IProps> = ({ updateStep, next }) => {
             amount: amount,
             refrence: refrence,
             buyer: buyer,
+            partner: process.env.NEXT_PUBLIC_LOGISTICS_PARTNER_ADDRESS
           } as IStepOne
         }
         validationSchema={Yup.object().shape({

@@ -13,7 +13,9 @@ const Login = () => {
     try {
       await authenticate({chainId: 4});
       if (isAuthenticated && user) {
-        if (await userHasCompany(user)) {
+        if (user.attributes.ethAddress === process.env.NEXT_PUBLIC_LOGISTICS_PARTNER_ADDRESS) {
+          router.push('/logistics')
+        } else if (await userHasCompany(user)) {
           router.push('/');
         } else {
           router.push('/create-company');

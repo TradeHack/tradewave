@@ -171,8 +171,7 @@ export default function SpringModal() {
                 {'6 October 2021'}
               </Grid>
             </StyledGrid>
-
-            <ResponsiveDialog />
+            <ResponsiveDialog title='Delete transaction?' />
           </StyledPaper>
         </Fade>
       </Modal>

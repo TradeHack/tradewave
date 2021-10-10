@@ -1,4 +1,10 @@
-type Status = 'pending';
+export enum Status {
+  pending = 'pending',
+  delivered = 'delivered',
+  inTransit = 'in transit',
+  declined = 'declined',
+  live = 'live',
+}
 
 export type Transaction = {
   amount: string;
