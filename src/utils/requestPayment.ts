@@ -1,7 +1,9 @@
 import Moralis from 'moralis';
 import { IStepOne, IStepTwo } from '@/context/paymentRequest';
 
-interface Values extends IStepOne, IStepTwo {}
+interface Values extends IStepOne, IStepTwo {
+  address: string
+}
 
 export const requestPayment = async (user: Moralis.User, values: Values) => {
   const Transaction = Moralis.Object.extend('Transaction');

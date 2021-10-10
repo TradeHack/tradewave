@@ -12,6 +12,7 @@ import Layout from '@/components/layout';
 import { getTransactionByRefrence } from '@/utils/getTransactions';
 import {ReceivePayment} from '../../../../ethereum/receivePayment'
 import { useMoralis } from 'react-moralis';
+import { updateTransaction } from '@/utils/updateTransaction';
 
 const PayBill = () => {
   const router = useRouter();
@@ -59,7 +60,9 @@ const PayBill = () => {
         const contract = ReceivePayment(address, web3)
         await contract.methods.confirmPurchase().send({from: accounts[0], value: transaction.amount})
       }
-     router.push('/')
+      await updateTransaction(refrence as string, 'Live');
+
+      router.push('/')
     } catch (e) {
       alert(e)
     }
@@ -74,6 +77,7 @@ const PayBill = () => {
         const contract = ReceivePayment(address, web3)
         await contract.methods.decline().send({from: accounts[0]})
       }
+      await updateTransaction(refrence as string, 'Declined');
     } catch (e) {
       alert(e)
     }

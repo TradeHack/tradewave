@@ -16,12 +16,11 @@ import { fetchMyCompany } from '@/utils/fetchMyCompany';
 import { formatDate } from '@/utils/formatDate';
 import { Transaction } from 'types/transactions';
 import Link from 'next/link';
-import { Factory } from '../../../../ethereum/factory';
 import Modal from '@/components/dialog';
 import { deleteTransaction } from '@/utils/deleteTransaction';
 
 const createData = (data: Transaction) => {
-  const { amount, refrence, buyer, freight, origin, submitted, status } = data;
+  const { amount, refrence, buyer, freight, origin, submitted, status, address } = data;
   return {
     amount,
     refrence,
@@ -30,27 +29,14 @@ const createData = (data: Transaction) => {
     submitted,
     status,
     buyer: buyer.attributes.companyName,
+    address
   };
 };
 
 const Outbound = () => {
   const [rows, setRows] = useState<Transaction[]>([]);
-  const [requests, setRequests] = useState<string[]>([])
   const [open, setOpen] = useState<boolean>(false);
-  const { user, web3, enableWeb3, isWeb3Enabled } = useMoralis();
-  const getTransactions = async () => {
-    const factory = await Factory(web3)
-
-    const requests = await factory.methods.getDeployedRequests().call()
-    setRequests(requests)
-  }
-
-  useEffect(() => {
-    enableWeb3({provider: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY})
-    if (isWeb3Enabled) {
-      getTransactions()
-    }
-  }, [isWeb3Enabled])
+  const { user } = useMoralis();
 
   const handleDelete = async (row: any) => {
     await deleteTransaction(row.refrence);
@@ -73,7 +59,7 @@ const Outbound = () => {
         const parsedData = transactions.map((transaction) =>
           createData({
             ...transaction.attributes,
-            submitted: transaction.createdAt,
+            submitted: transaction.createdAt
           } as Transaction)
         );
         setRows(parsedData);
@@ -96,7 +82,7 @@ const Outbound = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, i) => (
+            {rows.map((row) => (
               <TableRow key={row.seller}>
                 <TableCell component='th' scope='row'>
                   {row.buyer}
@@ -109,9 +95,9 @@ const Outbound = () => {
                   <Link
                     href={{
                       pathname: 'pay-bill/[refrence]/[address]',
-                      query: { refrence: row.refrence, address: requests[0] },
+                      query: { refrence: row.refrence, address: row.address },
                     }}
-                    as={`/pay-bill/${row.refrence}/${requests[0]}`}
+                    as={`/pay-bill/${row.refrence}/${row.address}`}
                   >
                     <Button
                       style={{ backgroundColor: 'green', color: 'white' }}

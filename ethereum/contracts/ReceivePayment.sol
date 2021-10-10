@@ -12,6 +12,10 @@ contract RequestFactory {
     function getDeployedRequests() public view returns (ReceivePayment[] memory) {
         return deployedRequests;
     }
+
+    function getLastDeployedRequest() public view returns (ReceivePayment) {
+        return deployedRequests[deployedRequests.length - 1];
+    }
 }
 
 

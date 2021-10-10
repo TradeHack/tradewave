@@ -6,8 +6,8 @@ const provider = new HDWalletProvider({
   mnemonic: {
     phrase: '',
   },
-  providerOrUrl: process.env.NEXT_PUBLIC_SPEEDY_NODES_ENDPOINT_RINKEBY,
-  chainId: process.env.NEXT_PUBLIC_CHAIN_ID
+  providerOrUrl: 'https://speedy-nodes-nyc.moralis.io/e439b1487cd90ef9dcc4b21d/eth/rinkeby',
+  chainId: 4
 })
 const web3 = new Web3(provider)
 

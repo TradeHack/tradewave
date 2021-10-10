@@ -9,4 +9,5 @@ export type Transaction = {
   status: Status;
   submitted: Date;
   seller?: any;
+  address: string;
 };

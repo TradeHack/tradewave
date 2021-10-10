@@ -59,13 +59,15 @@ const StepFour: FC<StepProps> = ({ updateStep, back }) => {
   const handleSubmit = async () => {
     setIsLoading(true)
     try {
-      await requestPayment(user as Moralis.User, { ...stepOne, ...stepTwo });
       const factory = await Factory(web3)
       const accounts = await web3?.eth.getAccounts()
      if (accounts) {
        await factory.methods.createRequest(stepOne.amount, '0xB65B2d2Bd1d5B228446e35786DBb9206B360F2D3').send({
          from: accounts[0]
        })
+       const request = await factory.methods.getLastDeployedRequest().call()
+        await requestPayment(user as Moralis.User, { ...stepOne, ...stepTwo, address: request });
+
      }
       router.push('/');
     } catch (error) {
